@@ -2,13 +2,13 @@ import { ENVIRONMENT } from "@/configurations";
 import axios, { AxiosInstance, AxiosResponse } from "axios";
 
 const HttpService: AxiosInstance = axios.create({
-  baseURL: ENVIRONMENT.baseURL,
+  baseURL: ENVIRONMENT.API_URL,
   headers: {
     "Content-Type": "application/json",
   },
 });
 
-export const requestManager = [
+const requestManager = [
   (config: any) => {
     const authToken = window.localStorage.getItem("token");
     if (authToken) {
@@ -21,7 +21,7 @@ export const requestManager = [
   },
 ];
 
-export const responseManager = [
+const responseManager = [
   (response: AxiosResponse) => {
     return response;
   },

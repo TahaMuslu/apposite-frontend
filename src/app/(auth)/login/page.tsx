@@ -1,23 +1,31 @@
-"use client"
+"use client";
 
 import { useStore } from '@/store';
-import { Button } from 'antd'
-import React from 'react'
+import { Button } from 'antd';
+import { useSearchParams } from 'next/navigation';
+import React from 'react';
 
 const Login = () => {
 
-  const {login} = useStore();
+  const { login } = useStore();
+
+  const searchParams = useSearchParams();
+
+  const from = searchParams.get('from');
 
   return (
     <div className='flex justify-center items-center w-full h-screen'>
       <Button onClick={() => {
         login({
-          email: "admin@admin.com",
-          password: "P@ssw0rd"
+          callbackUrl: from || "/",
+          requestData: {
+            email: "admin@admin.com",
+            password: "P@ssw0rd"
+          },
         });
       }} type='primary' danger>Giriş Yap</Button>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

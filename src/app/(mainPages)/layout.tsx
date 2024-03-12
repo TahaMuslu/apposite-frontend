@@ -1,18 +1,23 @@
+'use client';
+import { useStore } from '@/store';
+import { Button, Col, Row } from 'antd';
+import React from 'react';
 
-import React from 'react'
-
-const RootLayout = ({children}: {children: React.ReactNode}) => {
+const RootLayout = ({ children }: { children: React.ReactNode; }) => {
+  const { logout } = useStore();
   return (
-    <div className='flex h-screen w-screen'>
-        <div className='w-96'>
-            SideBar
-        </div>
+    <Row className='h-screen w-sreen overflow-x-hidden'>
+      <Col span={4}>
+        SideBar
+        <Button type='primary' danger onClick={async () => {
+          await logout();
+        }}>Log out</Button>
+      </Col>
+      <Col span={20} className='bg-gray-100'>
+        {children}
+      </Col>
+    </Row>
+  );
+};
 
-        <div className='flex-1 bg-gray-100'>
-            {children}
-        </div>
-    </div>
-  )
-}
-
-export default RootLayout
+export default RootLayout;

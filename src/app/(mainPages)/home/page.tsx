@@ -1,11 +1,17 @@
-"use client"
+"use client";
 
-import React from 'react'
+import React from 'react';
+import { useSession } from 'next-auth/react';
 
 const Home = () => {
+  const session = useSession();
   return (
-    <div>Home aqsd</div>
-  )
-}
+    <div className='w-full'>
+      <p>
+        {JSON.stringify(session)}
+      </p>
+    </div>
+  );
+};
 
-export default Home
+export default Home;

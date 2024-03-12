@@ -1,5 +1,14 @@
-import NextAuth, { NextAuthOptions } from "next-auth";
+import { jwtDecode, JwtPayload } from "jwt-decode";
+import NextAuth, { NextAuthOptions, User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+
+declare module "next-auth" {
+  interface User {
+    id?: string;
+    token: string;
+    refreshToken: string;
+  }
+}
 
 interface Credentials {
   email: string;
@@ -8,20 +17,25 @@ interface Credentials {
   refreshToken: string;
 }
 
+interface CustomJWTPayload extends JwtPayload {
+  id?: string;
+  email?: string;
+  name?: string;
+  role?: string;
+}
+
 const authOptions: NextAuthOptions = {
   session: {
-    strategy: "jwt",
+    strategy: "jwt"
   },
   providers: [
     CredentialsProvider({
       credentials: {},
       async authorize(credentials, req) {
-        const { email, password, token, refreshToken } =
+        const { token, refreshToken } =
           credentials as Credentials;
-        const user = {
-          id: "1",
-          name: email,
-          password: password,
+        const user: User = {
+          id: jwtDecode<CustomJWTPayload>(token).id,
           token: token,
           refreshToken: refreshToken,
         };
@@ -38,14 +52,16 @@ const authOptions: NextAuthOptions = {
   ],
   pages: {
     signIn: "/login",
-    signOut: "/logout",
+    // signOut: "/logout",
   },
   callbacks: {
-    async jwt({ token, user }: any) {
+    async jwt({ token, user }) {
       return { ...token, ...user };
     },
-    async session({ session, token, user }: any) {
-      session.user = token as any;
+    async session({ session, token }) {
+      session.user = jwtDecode(token.token as string);
+      const exp = jwtDecode(token.token as string).exp ?? 0;
+      session.expires = new Date(exp * 1000).toISOString();
       return session;
     },
     async redirect({ url, baseUrl }: any) {

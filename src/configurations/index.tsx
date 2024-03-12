@@ -1,9 +1,7 @@
 const env = {
-    baseURL: process.env.NEXT_PUBLIC_PRO_MODE,
-    CLIENT_ID: process.env.NEXT_PUBLIC_CLIENT_ID,
+    API_URL: process.env.NEXT_PUBLIC_PRO_MODE,
     CLIENT_SECRET: process.env.NEXT_AUTH_SECRET,
-    CDN_URL: process.env.NEXT_PUBLIC_CDN_URL,
+    NEXTAUTH_URL: process.env.NEXTAUTH_URL,
 };
 
-export const ENVIRONMENT = {...env}
-  
+export const ENVIRONMENT = { ...env };
