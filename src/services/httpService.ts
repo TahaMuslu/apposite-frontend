@@ -10,7 +10,7 @@ const HttpService: AxiosInstance = axios.create({
 
 const requestManager = [
   (config: any) => {
-    const authToken = window.localStorage.getItem("token");
+    const authToken = window.localStorage.getItem("apposite-token");
     if (authToken) {
       config.headers.Authorization = `Bearer ${authToken}`;
     }

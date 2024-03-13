@@ -1,12 +1,41 @@
+import { ENVIRONMENT } from "@/configurations";
 import { jwtDecode, JwtPayload } from "jwt-decode";
 import NextAuth, { NextAuthOptions, User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { signOut } from "next-auth/react";
 
 declare module "next-auth" {
   interface User {
     id?: string;
-    token: string;
-    refreshToken: string;
+    token?: string;
+    refreshToken?: string;
+    email?: string;
+    image?: string;
+    name?: string;
+    role?: string;
+    iss?: string;
+    sub?: string;
+    aud?: string[] | string;
+    exp?: number;
+    nbf?: number;
+    iat?: number;
+    jti?: string;
+  }
+
+  interface Session {
+    user: User;
+    expires: string;
+  }
+
+}
+
+declare module "next-auth/jwt" {
+  interface JWT {
+    token?: string;
+    refreshToken?: string;
+    iat?: string;
+    exp?: string;
+    jti?: string;
   }
 }
 
@@ -35,7 +64,6 @@ const authOptions: NextAuthOptions = {
         const { token, refreshToken } =
           credentials as Credentials;
         const user: User = {
-          id: jwtDecode<CustomJWTPayload>(token).id,
           token: token,
           refreshToken: refreshToken,
         };
@@ -52,23 +80,44 @@ const authOptions: NextAuthOptions = {
   ],
   pages: {
     signIn: "/login",
-    // signOut: "/logout",
+    signOut: "/login",
   },
   callbacks: {
     async jwt({ token, user }) {
-      return { ...token, ...user };
+      if (user) // giriş yapıldığında 1 kere user dolu geliyor
+        return { ...token, token: user.token, refreshToken: user.refreshToken };
+      return token;
     },
-    async session({ session, token }) {
-      session.user = jwtDecode(token.token as string);
-      const exp = jwtDecode(token.token as string).exp ?? 0;
-      session.expires = new Date(exp * 1000).toISOString();
+    async session({ session, token }): Promise<any> {
+      session.user = token.token ? jwtDecode(token.token) : session.user;
+      const exp: number | undefined = (jwtDecode(token.token ?? "") as CustomJWTPayload).exp;
+      session.expires = new Date((exp ?? 0) * 1000).toISOString();
+      session.user = { ...session.user, token: token.token, refreshToken: token.refreshToken };
       return session;
     },
-    async redirect({ url, baseUrl }: any) {
+    async redirect({ url, baseUrl }) {
       return url;
-    },
+    }
   },
   secret: process.env.NEXTAUTH_SECRET,
+  events: {
+    signIn: async (message) => {
+
+    },
+    signOut: async (message) => {
+
+    },
+    createUser: async (message) => {
+
+    },
+    session: async (message) => {
+
+    },
+    updateUser: async (message) => {
+
+    }
+  },
+
 };
 
 const handler = NextAuth(authOptions);

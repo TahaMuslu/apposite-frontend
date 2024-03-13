@@ -12,8 +12,8 @@ export type LoginType = {
 };
 
 export type TAuthState = {
-  isAuthenticated: boolean;
-  token?: string;
+  isAuthenticated: boolean; // useSession().data?.user ? true : false
+  token?: string; // useSession().data?.token
   /** actions */
   logout: () => Promise<void>;
   login: (data: LoginType) => Promise<void>;
@@ -27,9 +27,9 @@ const createAuthSlice: StateCreator<TAuthState> = (set, get) => ({
     try {
       const response: AxiosResponse = await loginService(data.requestData);
 
-      localStorage.setItem("apposite-token", response?.data?.data?.token);
-      localStorage.setItem("apposite-refreshToken", response?.data?.data?.refreshToken);
-      let res = await signIn("credentials", {
+      localStorage.setItem("apposite-token", response?.data?.data?.token); // useSession().data?.token
+      localStorage.setItem("apposite-refreshToken", response?.data?.data?.refreshToken); // useSession().data?.refreshToken
+      await signIn("credentials", {
         refreshToken: response?.data?.data?.refreshToken,
         token: response?.data?.data?.token,
         email: data.requestData.email,

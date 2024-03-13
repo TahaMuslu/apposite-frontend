@@ -10,6 +10,9 @@ const Home = () => {
       <p>
         {JSON.stringify(session)}
       </p>
+      <p>
+
+      </p>
     </div>
   );
 };
