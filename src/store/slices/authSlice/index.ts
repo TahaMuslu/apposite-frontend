@@ -12,8 +12,6 @@ export type LoginType = {
 };
 
 export type TAuthState = {
-  isAuthenticated: boolean; // useSession().data?.user ? true : false
-  token?: string; // useSession().data?.token
   /** actions */
   logout: () => Promise<void>;
   login: (data: LoginType) => Promise<void>;
@@ -21,13 +19,11 @@ export type TAuthState = {
 };
 
 const createAuthSlice: StateCreator<TAuthState> = (set, get) => ({
-  isAuthenticated: false,
-  token: undefined,
   login: async (data: LoginType) => {
     try {
       const response: AxiosResponse = await loginService(data.requestData);
+      if (response.status !== 200) return Promise.reject(response);
 
-      localStorage.setItem("apposite-token", response?.data?.data?.token); // useSession().data?.token
       localStorage.setItem("apposite-refreshToken", response?.data?.data?.refreshToken); // useSession().data?.refreshToken
       await signIn("credentials", {
         refreshToken: response?.data?.data?.refreshToken,
@@ -37,12 +33,6 @@ const createAuthSlice: StateCreator<TAuthState> = (set, get) => ({
         redirect: true,
         callbackUrl: data.callbackUrl,
       });
-
-      set((state: TAuthState) => ({
-        ...state,
-        isAuthenticated: true,
-        token: response?.data?.data?.token,
-      }));
     } catch (e) {
       return Promise.reject(e);
     }
@@ -53,13 +43,7 @@ const createAuthSlice: StateCreator<TAuthState> = (set, get) => ({
         callbackUrl: "/login",
         redirect: true
       });
-      localStorage.removeItem("apposite-token");
       localStorage.removeItem("apposite-refreshToken");
-      set((state: TAuthState) => ({
-        ...state,
-        isAuthenticated: false,
-        token: undefined,
-      }));
     } catch (e) {
       return Promise.reject(e);
     }

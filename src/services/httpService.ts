@@ -1,5 +1,6 @@
 import { ENVIRONMENT } from "@/configurations";
 import axios, { AxiosInstance, AxiosResponse } from "axios";
+import { getSession } from "next-auth/react";
 
 const HttpService: AxiosInstance = axios.create({
   baseURL: ENVIRONMENT.API_URL,
@@ -9,8 +10,9 @@ const HttpService: AxiosInstance = axios.create({
 });
 
 const requestManager = [
-  (config: any) => {
-    const authToken = window.localStorage.getItem("apposite-token");
+  async (config: any) => {
+    const session = await getSession();
+    const authToken = session?.user?.token;
     if (authToken) {
       config.headers.Authorization = `Bearer ${authToken}`;
     }

@@ -1,4 +1,4 @@
-import { AxiosRequestConfig } from "axios";
+import { AxiosRequestConfig, AxiosResponseHeaders, InternalAxiosRequestConfig, RawAxiosResponseHeaders } from "axios";
 
 interface IApiResponse<T = any> {
   data?: T;
@@ -13,9 +13,9 @@ interface IApiResponse<T = any> {
 
 export type AxiosResponse<T = any> = {
   data?: IApiResponse<T>;
-  status: boolean;
-  headers: any;
-  config: any;
+  status: number;
+  headers: RawAxiosResponseHeaders | AxiosResponseHeaders;
+  config: InternalAxiosRequestConfig<any>;
   request?: any;
 };
 
