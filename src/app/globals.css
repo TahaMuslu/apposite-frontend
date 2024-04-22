@@ -1,4 +1,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* 
+[class~='ant-carousel'] {
+    [class~='slick-slider'] {
+      li button {
+            width: 6px;
+            height: 6px;
+            border-radius: 100%;
+          }
+       li.slick-active button {
+            width: 7px;
+            height: 7px;
+            border-radius: 100%;
+          }
+    }
+   
+} */
 
+.ant-carousel .slick-active button {
+    background-color: #ea6d6d !important;
+}
+
+.ant-carousel .slick-dots :not(.slick-active) button {
+    background-color: #929394 !important;
+}

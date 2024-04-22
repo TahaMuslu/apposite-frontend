@@ -15,17 +15,12 @@ export default withAuth(
     } else {
       if (!isAuth) {
         let from = req.nextUrl.pathname;
-        if (req.nextUrl.search) {
+        if (req.nextUrl.search)
           from += req.nextUrl.search;
-        }
-        if (isAuthPage)
-          return NextResponse.redirect(
-            new URL(`/login`, req.url)
-          );
+
         return NextResponse.redirect(
           new URL(`/login?from=${encodeURIComponent(from)}`, req.url)
         );
-
       }
     }
 

@@ -1,5 +1,6 @@
-import { loginService } from "@/services";
+import { loginService, registerService } from "@/services";
 import { AxiosResponse } from "@/services/types";
+import { AxiosError } from "axios";
 import { signIn, signOut } from "next-auth/react";
 import { StateCreator } from "zustand";
 
@@ -11,10 +12,18 @@ export type LoginType = {
   callbackUrl: string;
 };
 
+export type RegisterType = {
+  name: string;
+  surname: string;
+  email: string;
+  password: string;
+};
+
 export type TAuthState = {
   /** actions */
   logout: () => Promise<void>;
-  login: (data: LoginType) => Promise<void>;
+  login: (data: LoginType) => Promise<AxiosResponse | any>;
+  register: (data: RegisterType) => Promise<AxiosResponse>;
   refreshTokenReq: () => void;
 };
 
@@ -45,6 +54,23 @@ const createAuthSlice: StateCreator<TAuthState> = (set, get) => ({
       });
       localStorage.removeItem("apposite-refreshToken");
     } catch (e) {
+      return Promise.reject(e);
+    }
+  },
+  register: async (data: RegisterType): Promise<AxiosResponse> => {
+    const newData = {
+      name: data.name,
+      surname: data.surname,
+      email: data.email,
+      userName: (data.name + data.surname).replace(" ", "") + Math.floor(Math.random() * 1000 + 8999),
+      password: data.password,
+    };
+    try {
+      const response: AxiosResponse = await registerService(newData);
+      return Promise.resolve(response);
+    } catch (e) {
+      if (e instanceof AxiosError)
+        return Promise.reject(e.response);
       return Promise.reject(e);
     }
   },
