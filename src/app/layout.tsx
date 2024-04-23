@@ -48,6 +48,24 @@ export default function RootLayout({
           <ConfigProvider
             theme={{
               components: {
+                Input: {
+                  activeBorderColor: "rgb(220, 38, 38) !important",
+                  hoverBorderColor: "rgb(239, 68, 68) !important",
+                  colorPrimary: "rgb(220, 38, 38) !important",
+                  colorPrimaryActive: "rgb(239, 68, 68) !important",
+                  colorPrimaryHover: "rgb(239, 68, 68) !important",
+                  colorPrimaryBorder: "rgb(220, 38, 38) !important",
+                  colorPrimaryBorderHover: "rgb(239, 68, 68) !important",
+                  colorIconHover: "rgb(239, 68, 68) !important",
+                  colorInfoBorderHover: "rgb(239, 68, 68) !important",
+                  activeShadow: "0 0 0 2px rgba(239, 68, 68,0.1)"
+                },
+                Button: {
+                  colorPrimaryBg: "rgb(220, 38, 38) !important",
+                  defaultActiveBg: "rgb(239, 68, 68) !important",
+                  colorIconHover: "rgb(239, 68, 68) !important",
+                  defaultHoverBorderColor: "rgb(239, 68, 68) !important",
+                }
               },
               token: {
               }

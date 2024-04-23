@@ -1,5 +1,6 @@
 import { loginService, registerService } from "@/services";
-import { AxiosResponse } from "@/services/types";
+import HttpService from "@/services/httpService";
+import { AxiosResponse, IRequestModel } from "@/services/types";
 import { AxiosError } from "axios";
 import { signIn, signOut } from "next-auth/react";
 import { StateCreator } from "zustand";
@@ -33,6 +34,16 @@ const createAuthSlice: StateCreator<TAuthState> = (set, get) => ({
       const response: AxiosResponse = await loginService(data.requestData);
       if (response.status !== 200) return Promise.reject(response);
 
+      const personalData: AxiosResponse = await HttpService.get("User/getPersonalInfo", {
+        headers: {
+          Authorization: `Bearer ${response?.data?.data?.token}`
+        }
+      });
+
+      let isFirstLogin = personalData.data?.data?.ingredients.length === 0;
+      isFirstLogin = isFirstLogin || personalData.data?.data?.healths.length === 0;
+      isFirstLogin = isFirstLogin || personalData.data?.data?.cuisines.length === 0;
+
       localStorage.setItem("apposite-refreshToken", response?.data?.data?.refreshToken); // useSession().data?.refreshToken
       await signIn("credentials", {
         refreshToken: response?.data?.data?.refreshToken,
@@ -40,7 +51,7 @@ const createAuthSlice: StateCreator<TAuthState> = (set, get) => ({
         email: data.requestData.email,
         password: data.requestData.password,
         redirect: true,
-        callbackUrl: data.callbackUrl,
+        callbackUrl: isFirstLogin ? "/firstlogin" : data.callbackUrl,
       });
     } catch (e) {
       return Promise.reject(e);

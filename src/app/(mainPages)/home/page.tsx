@@ -8,7 +8,7 @@ const Home = () => {
   return (
     <div className='w-full'>
       <p>
-        {JSON.stringify(session)}
+        {JSON.stringify(session.data?.user)}
       </p>
       <p>
 
