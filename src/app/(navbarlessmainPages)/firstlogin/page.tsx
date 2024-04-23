@@ -2,7 +2,9 @@
 
 import HttpService from '@/services/httpService';
 import { AxiosResponse } from '@/services/types';
+import { useStore } from '@/store';
 import { Button, Select, SelectProps, Spin } from 'antd';
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 
@@ -13,33 +15,102 @@ interface IOption {
 
 const FirstLogin = () => {
     const [loading, setLoading] = useState<boolean>(false);
+    const [finalLoading, setFinalLoading] = useState<boolean>(false);
     const [selectedIngredients, setSelectedIngredients] = useState<string[]>([]);
-    const [options, setOptions] = useState<Array<IOption>>([]);
+    const [selectedHealths, setSelectedHealths] = useState<string[]>([]);
+    const [selectedCuisines, setSelectedCuisines] = useState<string[]>([]);
+    const [optionsIngredient, setOptionsIngredient] = useState<Array<IOption>>([]);
+    const [optionsHealth, setOptionsHealth] = useState<Array<IOption>>([]);
+    const [optionsCuisine, setOptionsCuisine] = useState<Array<IOption>>([]);
+
+    const router = useRouter();
+
+    const { showNotification } = useStore();
 
     const myCarousel = useRef<HTMLDivElement>(null);
 
-    const debounced = useDebouncedCallback(
+    const debouncedIngredient = useDebouncedCallback(
         (value) => {
-            handleSearch(value);
+            handleSearchIngredient(value);
         },
         1000
     );
 
+    const debouncedHealth = useDebouncedCallback(
+        (value) => {
+            handleSearchHealth(value);
+        },
+        1000
+    );
+
+    const debouncedCuisine = useDebouncedCallback(
+        (value) => {
+            handleSearchCuisine(value);
+        },
+        1000
+    );
+
+    const ingredientConfirm = () => {
+        myCarousel.current?.classList.remove('-translate-x-0');
+        myCarousel.current?.classList.add('-translate-x-1/3');
+    };
+
+    const healthBack = () => {
+        myCarousel.current?.classList.remove('-translate-x-1/3');
+        myCarousel.current?.classList.add('-translate-x-0');
+    };
+
+    const healthConfirm = () => {
+        myCarousel.current?.classList.remove('-translate-x-1/3');
+        myCarousel.current?.classList.add('-translate-x-2/3');
+    };
+
+    const cuisineBack = () => {
+        if (finalLoading) return;
+        myCarousel.current?.classList.remove('-translate-x-2/3');
+        myCarousel.current?.classList.add('-translate-x-1/3');
+    };
+
+    const cuisineConfirm = () => {
+        if (finalLoading) return;
+        if (selectedIngredients.length === 0 && selectedHealths.length === 0 && selectedCuisines.length === 0) {
+            showNotification({ type: 'error', message: 'Lütfen en az 1 bilgi ekleyiniz.' });
+            return;
+        }
+        const data = {
+            ingredients: selectedIngredients,
+            healths: selectedHealths,
+            cuisines: selectedCuisines
+        };
+        setFinalLoading(true);
+
+        HttpService.post('User/addPersonalInfo', data).then((res: AxiosResponse) => {
+            if (res.status.toString().startsWith('2')) {
+                showNotification({ type: 'success', message: 'Kişisel bilgileriniz başarıyla kaydedildi.' });
+                router.push('/');
+            }
+        }).catch((err) => {
+            showNotification({ type: 'error', message: 'Kişisel bilgileriniz kaydedilirken bir hata oluştu.' });
+        }).finally(() => {
+            setFinalLoading(false);
+        });
+    };
+
     useEffect(() => {
-        handleSearch('');
+        handleSearchIngredient('');
     }, []);
 
 
-    const handleSearch = (value: string) => {
+    const handleSearchIngredient = (value: string) => {
         setLoading(true);
         let url = `Ingredient/get?searchText=${value}`;
         if (value === '')
             url = 'Ingredient/get';
         HttpService.get(url).then((res: AxiosResponse) => {
             if (res.data) {
-                setOptions([]);
+                setOptionsIngredient([]);
                 res.data.data.forEach((ingredient: any) => {
-                    setOptions((prev) => [...prev, { value: ingredient.id, label: ingredient.name }]);
+                    setOptionsIngredient((prev) => [...prev, { value: ingredient.id, label: ingredient.name }]);
                 });
             }
         }).finally(() => {
@@ -47,8 +118,52 @@ const FirstLogin = () => {
         });
     };
 
-    const handleChange = (value: string[]) => {
+    const handleSearchHealth = (value: string) => {
+        setLoading(true);
+        let url = `Health/get?searchText=${value}`;
+        if (value === '')
+            url = 'Health/get';
+        HttpService.get(url).then((res: AxiosResponse) => {
+            if (res.data) {
+                setOptionsHealth([]);
+                res.data.data.forEach((health: any) => {
+                    setOptionsHealth((prev) => [...prev, { value: health.id, label: health.name }]);
+                });
+            }
+        }).finally(() => {
+            setLoading(false);
+        });
+    };
+
+    const handleSearchCuisine = (value: string) => {
+        setLoading(true);
+        let url = `CuisinePreference/get?searchText=${value}`;
+        if (value === '')
+            url = 'CuisinePreference/get';
+        HttpService.get(url).then((res: AxiosResponse) => {
+            if (res.data) {
+                setOptionsCuisine([]);
+                res.data.data.forEach((cuisine: any) => {
+                    setOptionsCuisine((prev) => [...prev, { value: cuisine.id, label: cuisine.name }]);
+                });
+            }
+        }).finally(() => {
+            setLoading(false);
+        });
+    };
+
+    const handleChangeIngredient = (value: string[]) => {
         setSelectedIngredients(value);
+        console.log(value);
+    };
+
+    const handleChangeHealth = (value: string[]) => {
+        setSelectedHealths(value);
+        console.log(value);
+    };
+
+    const handleChangeCuisine = (value: string[]) => {
+        setSelectedCuisines(value);
         console.log(value);
     };
 
@@ -68,8 +183,7 @@ const FirstLogin = () => {
                                 3
                             </div>
                         </div>
-                        <div className='place-self-end me-6 text-red-500 hover:text-red-600 cursor-pointer'>
-                            Adımı Geç
+                        <div className='place-self-end me-6 text-red-500 hover:text-red-600 cursor-pointer' onClick={ingredientConfirm}>
                         </div>
                     </div>
                     <div className='row-span-2'>
@@ -86,18 +200,15 @@ const FirstLogin = () => {
                             allowClear
                             className='w-11/12'
                             placeholder="Malzeme Ara"
-                            onChange={handleChange}
-                            onSearch={(value) => debounced(value)}
-                            options={options}
-                            onFocus={() => debounced('')}
+                            onChange={handleChangeIngredient}
+                            onSearch={(value) => debouncedIngredient(value)}
+                            options={optionsIngredient}
+                            onFocus={() => debouncedIngredient('')}
                             notFoundContent={loading ? <Spin size='small' /> : 'Sonuç Bulunamadı'}
                         />
                     </div>
                     <div className='row-span-2 flex justify-center items-start'>
-                        <Button type='primary' className='mt-4 bg-red-500 hover:bg-red-600 w-11/12 h-10' onClick={() => {
-                            myCarousel.current?.classList.remove('-translate-x-0');
-                            myCarousel.current?.classList.add('-translate-x-1/3');
-                        }}>Sonraki Adım</Button>
+                        <Button type='primary' className='mt-4 bg-red-500 hover:bg-red-600 w-11/12 h-10' onClick={ingredientConfirm}>Sonraki Adım</Button>
                     </div>
 
                 </div>
@@ -117,15 +228,14 @@ const FirstLogin = () => {
                             </div>
                         </div>
                         <div className='place-self-end me-6 text-red-500 hover:text-red-600 cursor-pointer'>
-                            Adımı Geç
                         </div>
                     </div>
                     <div className='row-span-2'>
                         <h2 className='text-2xl font-semibold text-start ms-4'>
-                            Herhangi bir malzemeye veya ürüne alerjiniz var mı?
+                            Uygulamanız gereken bir diyet veya yeme alışkanlığı var mı?
                         </h2>
                         <h6 className='text-sm text-start ms-4 text-gray-400 mt-1'>
-                            Yediğinizde size zarar verebilecek malzemeleri olabildiğince sizden uzak tutmaya çalışıyoruz, lütfen aşağıdaki bölümden bu malzemeleri seçiniz.
+                            Bir rahatsızlığınız varsa veya yemek alışkanlığınız varsa lütfen aşağıdaki bölümden bunları seçiniz.
                         </h6>
                     </div>
                     <div className='row-span-6 flex flex-col justify-start items-center'>
@@ -133,19 +243,17 @@ const FirstLogin = () => {
                             mode="multiple"
                             allowClear
                             className='w-11/12'
-                            placeholder="Malzeme Ara"
-                            onChange={handleChange}
-                            onSearch={(value) => debounced(value)}
-                            options={options}
-                            onFocus={() => debounced('')}
+                            placeholder="Diyet Ara"
+                            onChange={handleChangeHealth}
+                            onSearch={(value) => debouncedHealth(value)}
+                            options={optionsHealth}
+                            onFocus={() => debouncedHealth('')}
                             notFoundContent={loading ? <Spin size='small' /> : 'Sonuç Bulunamadı'}
                         />
                     </div>
-                    <div className='row-span-2 flex justify-center items-start'>
-                        <Button type='primary' className='mt-4 bg-red-500 hover:bg-red-600 w-11/12 h-10' onClick={() => {
-                            myCarousel.current?.classList.remove('-translate-x-1/3');
-                            myCarousel.current?.classList.add('-translate-x-2/3');
-                        }}>Sonraki Adım</Button>
+                    <div className='row-span-2 grid grid-cols-2 gap-4 place-items-center'>
+                        <Button type='primary' className='col-span-1 bg-red-500 hover:bg-red-600 w-11/12 h-10' onClick={healthBack}>Önceki Adım</Button>
+                        <Button type='primary' className='col-span-1 bg-red-500 hover:bg-red-600 w-11/12 h-10' onClick={healthConfirm}>Sonraki Adım</Button>
                     </div>
 
                 </div>
@@ -165,15 +273,14 @@ const FirstLogin = () => {
                             </div>
                         </div>
                         <div className='place-self-end me-6 text-red-500 hover:text-red-600 cursor-pointer'>
-                            Adımı Geç
                         </div>
                     </div>
                     <div className='row-span-2'>
                         <h2 className='text-2xl font-semibold text-start ms-4'>
-                            Herhangi bir malzemeye veya ürüne alerjiniz var mı?
+                            Sevdiğiniz ülke mutfakları nelerdir?
                         </h2>
                         <h6 className='text-sm text-start ms-4 text-gray-400 mt-1'>
-                            Yediğinizde size zarar verebilecek malzemeleri olabildiğince sizden uzak tutmaya çalışıyoruz, lütfen aşağıdaki bölümden bu malzemeleri seçiniz.
+                            İşaretlediğiniz mutfaklara göre öneriler alacaksınız, lütfen aşağıdaki bölümlerden sevdiğiniz mutfakları seçiniz.
                         </h6>
                     </div>
                     <div className='row-span-6 flex flex-col justify-start items-center'>
@@ -181,19 +288,17 @@ const FirstLogin = () => {
                             mode="multiple"
                             allowClear
                             className='w-11/12'
-                            placeholder="Malzeme Ara"
-                            onChange={handleChange}
-                            onSearch={(value) => debounced(value)}
-                            options={options}
-                            onFocus={() => debounced('')}
+                            placeholder="Mutfak Ara"
+                            onChange={handleChangeCuisine}
+                            onSearch={(value) => debouncedCuisine(value)}
+                            options={optionsCuisine}
+                            onFocus={() => debouncedCuisine('')}
                             notFoundContent={loading ? <Spin size='small' /> : 'Sonuç Bulunamadı'}
                         />
                     </div>
-                    <div className='row-span-2 flex justify-center items-start'>
-                        <Button type='primary' className='mt-4 bg-red-500 hover:bg-red-600 w-11/12 h-10' onClick={() => {
-                            myCarousel.current?.classList.remove('-translate-x-2/3');
-                            myCarousel.current?.classList.add('-translate-x-0');
-                        }}>Sonraki Adım</Button>
+                    <div className='row-span-2 grid grid-cols-2 gap-4 place-items-center'>
+                        <Button type='primary' loading={finalLoading} className='col-span-1 bg-red-500 hover:bg-red-600 w-11/12 h-10' onClick={cuisineBack}>Önceki Adım</Button>
+                        <Button type='primary' loading={finalLoading} className='col-span-1 bg-red-500 hover:bg-red-600 w-11/12 h-10' onClick={cuisineConfirm}>Tamamla</Button>
                     </div>
 
                 </div>

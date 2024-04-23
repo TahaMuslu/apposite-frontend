@@ -39,10 +39,10 @@ const createAuthSlice: StateCreator<TAuthState> = (set, get) => ({
           Authorization: `Bearer ${response?.data?.data?.token}`
         }
       });
-
+      console.log(personalData.data?.data);
       let isFirstLogin = personalData.data?.data?.ingredients.length === 0;
-      isFirstLogin = isFirstLogin || personalData.data?.data?.healths.length === 0;
-      isFirstLogin = isFirstLogin || personalData.data?.data?.cuisines.length === 0;
+      isFirstLogin = isFirstLogin && personalData.data?.data?.healths.length === 0;
+      isFirstLogin = isFirstLogin && personalData.data?.data?.cuisines.length === 0;
 
       localStorage.setItem("apposite-refreshToken", response?.data?.data?.refreshToken); // useSession().data?.refreshToken
       await signIn("credentials", {
