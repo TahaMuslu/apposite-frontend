@@ -72,7 +72,7 @@ const createAuthSlice: StateCreator<TAuthState> = (set, get) => ({
       name: data.name,
       surname: data.surname,
       email: data.email,
-      userName: (data.name + data.surname).replace(" ", "") + Math.floor(Math.random() * 1000 + 8999),
+      userName: data.email,
       password: data.password,
     };
     try {

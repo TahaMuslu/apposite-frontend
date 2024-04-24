@@ -9,6 +9,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 const Login = () => {
+  const [loading, setLoading] = useState<boolean>();
 
   const { login } = useStore();
 
@@ -129,13 +130,15 @@ const Login = () => {
           <p className='w-min ms-auto text-nowrap mt-2 text-sm text-red-500 cursor-pointer'>Şifremi Unuttum</p>
           <Button
             onClick={() => {
+              setLoading(true);
               login({
                 callbackUrl: from || "/",
                 requestData: loginData
-              });
+              }).finally(() => setLoading(false));
             }}
             type='primary'
             className='mt-8 bg-red-500 hover:bg-red-600 w-full h-10'
+            loading={loading}
           >
             Giriş Yap
           </Button>
