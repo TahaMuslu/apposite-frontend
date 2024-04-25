@@ -14,8 +14,8 @@ const Login = () => {
   const { login,showNotification } = useStore();
 
   const [loginData, setLoginData] = useState({
-    email: "",
-    password: ""
+    email: "admin@admin.com",
+    password: "P@ssw0rd"
   });
 
 
