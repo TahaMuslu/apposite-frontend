@@ -11,7 +11,7 @@ import Link from 'next/link';
 const Login = () => {
   const [loading, setLoading] = useState<boolean>();
 
-  const { login } = useStore();
+  const { login,showNotification } = useStore();
 
   const [loginData, setLoginData] = useState({
     email: "",
@@ -134,7 +134,9 @@ const Login = () => {
               login({
                 callbackUrl: from || "/",
                 requestData: loginData
-              }).finally(() => setLoading(false));
+              })
+              .catch(() => showNotification({ type: "error", message: "Giriş Yapılamadı" }))
+              .finally(() => setLoading(false));
             }}
             type='primary'
             className='mt-8 bg-red-500 hover:bg-red-600 w-full h-10'

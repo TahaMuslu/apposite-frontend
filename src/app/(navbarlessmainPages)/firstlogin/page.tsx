@@ -102,16 +102,13 @@ const FirstLogin = () => {
 
 
     const handleSearchIngredient = (value: string) => {
-        setLoading(true);
         let url = `Ingredient/get?searchText=${value}`;
         if (value === '')
             url = 'Ingredient/get';
         HttpService.get(url).then((res: AxiosResponse) => {
-            if (res.data) {
+            if (res.data?.data) {
                 setOptionsIngredient([]);
-                res.data.data.forEach((ingredient: any) => {
-                    setOptionsIngredient((prev) => [...prev, { value: ingredient.id, label: ingredient.name }]);
-                });
+                res.data.data.forEach((ingredient: any) => setOptionsIngredient((prev) => [...prev, { value: ingredient.id, label: ingredient.name }]));
             }
         }).finally(() => {
             setLoading(false);
@@ -119,16 +116,13 @@ const FirstLogin = () => {
     };
 
     const handleSearchHealth = (value: string) => {
-        setLoading(true);
         let url = `Health/get?searchText=${value}`;
         if (value === '')
             url = 'Health/get';
         HttpService.get(url).then((res: AxiosResponse) => {
-            if (res.data) {
+            if (res.data?.data) {
                 setOptionsHealth([]);
-                res.data.data.forEach((health: any) => {
-                    setOptionsHealth((prev) => [...prev, { value: health.id, label: health.name }]);
-                });
+                res.data.data.forEach((health: any) => setOptionsHealth((prev) => [...prev, { value: health.id, label: health.name }]));
             }
         }).finally(() => {
             setLoading(false);
@@ -136,16 +130,13 @@ const FirstLogin = () => {
     };
 
     const handleSearchCuisine = (value: string) => {
-        setLoading(true);
         let url = `CuisinePreference/get?searchText=${value}`;
         if (value === '')
             url = 'CuisinePreference/get';
         HttpService.get(url).then((res: AxiosResponse) => {
-            if (res.data) {
+            if (res.data?.data) {
                 setOptionsCuisine([]);
-                res.data.data.forEach((cuisine: any) => {
-                    setOptionsCuisine((prev) => [...prev, { value: cuisine.id, label: cuisine.name }]);
-                });
+                res.data.data.forEach((cuisine: any) => setOptionsCuisine((prev) => [...prev, { value: cuisine.id, label: cuisine.name }]));
             }
         }).finally(() => {
             setLoading(false);
@@ -201,9 +192,11 @@ const FirstLogin = () => {
                             className='w-11/12'
                             placeholder="Malzeme Ara"
                             onChange={handleChangeIngredient}
-                            onSearch={(value) => debouncedIngredient(value)}
+                            onSearch={(value) => { setOptionsIngredient([]); setLoading(true); debouncedIngredient(value); }}
                             options={optionsIngredient}
-                            onFocus={() => debouncedIngredient('')}
+                            loading={loading}
+                            filterOption={false}
+                            onFocus={() => { setOptionsIngredient([]); setLoading(true); debouncedIngredient(''); }}
                             notFoundContent={loading ? <Spin size='small' /> : 'Sonuç Bulunamadı'}
                         />
                     </div>
@@ -245,9 +238,10 @@ const FirstLogin = () => {
                             className='w-11/12'
                             placeholder="Diyet Ara"
                             onChange={handleChangeHealth}
-                            onSearch={(value) => debouncedHealth(value)}
+                            onSearch={(value) => { setOptionsHealth([]); setLoading(true); debouncedHealth(value); }}
                             options={optionsHealth}
-                            onFocus={() => debouncedHealth('')}
+                            onFocus={() => { setOptionsHealth([]); setLoading(true); debouncedHealth(''); }}
+                            filterOption={false}
                             notFoundContent={loading ? <Spin size='small' /> : 'Sonuç Bulunamadı'}
                         />
                     </div>
@@ -290,9 +284,10 @@ const FirstLogin = () => {
                             className='w-11/12'
                             placeholder="Mutfak Ara"
                             onChange={handleChangeCuisine}
-                            onSearch={(value) => debouncedCuisine(value)}
+                            onSearch={(value) => { setOptionsCuisine([]); setLoading(true); debouncedCuisine(value); }}
                             options={optionsCuisine}
-                            onFocus={() => debouncedCuisine('')}
+                            onFocus={() => { setOptionsCuisine([]); setLoading(true); debouncedCuisine(''); }}
+                            filterOption={false}
                             notFoundContent={loading ? <Spin size='small' /> : 'Sonuç Bulunamadı'}
                         />
                     </div>
