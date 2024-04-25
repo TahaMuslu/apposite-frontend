@@ -1,22 +1,22 @@
 'use client';
+import Navbar from '@/components/Navbar';
 import { useStore } from '@/store';
-import { Button, Col, Row } from 'antd';
+import { Button } from 'antd';
 import React from 'react';
 
 const RootLayout = ({ children }: { children: React.ReactNode; }) => {
   const { logout } = useStore();
   return (
-    <Row className='h-screen w-screen overflow-x-hidden'>
-      <Col span={4}>
-        SideBar
-        <Button type='primary' danger onClick={async () => {
-          await logout();
-        }}>Log out</Button>
-      </Col>
-      <Col span={20} className='bg-gray-100'>
+    <div className='grid grid-cols-12 grid-rows-1 w-full min-h-screen overflow-x-hidden bg-[#f9fafb]'>
+      <div className='col-span-1 bg-transparent'>
+        <div className='fixed top-1/2 -translate-y-1/2'>
+          <Navbar />
+        </div>
+      </div>
+      <div className='col-span-11 h-full'>
         {children}
-      </Col>
-    </Row>
+      </div>
+    </div>
   );
 };
 

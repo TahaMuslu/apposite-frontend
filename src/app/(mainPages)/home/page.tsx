@@ -9,6 +9,17 @@ const Home = () => {
     <div className='w-full'>
       <p>
         {JSON.stringify(session.data?.user)}
+        {JSON.stringify(session.data?.user)}
+        {JSON.stringify(session.data?.user)}
+        {JSON.stringify(session.data?.user)}
+        {JSON.stringify(session.data?.user)}
+        {JSON.stringify(session.data?.user)}
+        {JSON.stringify(session.data?.user)}
+        {JSON.stringify(session.data?.user)}
+        {JSON.stringify(session.data?.user)}
+        {JSON.stringify(session.data?.user)}
+        {JSON.stringify(session.data?.user)}
+        {JSON.stringify(session.data?.user)}
       </p>
       <p>
 

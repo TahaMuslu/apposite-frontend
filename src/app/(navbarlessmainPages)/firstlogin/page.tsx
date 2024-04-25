@@ -197,7 +197,7 @@ const FirstLogin = () => {
                             loading={loading}
                             filterOption={false}
                             onFocus={() => { setOptionsIngredient([]); setLoading(true); debouncedIngredient(''); }}
-                            notFoundContent={loading ? <Spin size='small' /> : 'Sonuç Bulunamadı'}
+                            notFoundContent={loading ? <Spin className='w-full flex justify-center' size='small' /> : 'Sonuç Bulunamadı'}
                         />
                     </div>
                     <div className='row-span-2 flex justify-center items-start'>
@@ -242,7 +242,7 @@ const FirstLogin = () => {
                             options={optionsHealth}
                             onFocus={() => { setOptionsHealth([]); setLoading(true); debouncedHealth(''); }}
                             filterOption={false}
-                            notFoundContent={loading ? <Spin size='small' /> : 'Sonuç Bulunamadı'}
+                            notFoundContent={loading ? <Spin className='w-full flex justify-center' size='small' /> : 'Sonuç Bulunamadı'}
                         />
                     </div>
                     <div className='row-span-2 grid grid-cols-2 gap-4 place-items-center'>
@@ -288,7 +288,7 @@ const FirstLogin = () => {
                             options={optionsCuisine}
                             onFocus={() => { setOptionsCuisine([]); setLoading(true); debouncedCuisine(''); }}
                             filterOption={false}
-                            notFoundContent={loading ? <Spin size='small' /> : 'Sonuç Bulunamadı'}
+                            notFoundContent={loading ? <Spin className='w-full flex justify-center' size='small' /> : 'Sonuç Bulunamadı'}
                         />
                     </div>
                     <div className='row-span-2 grid grid-cols-2 gap-4 place-items-center'>
