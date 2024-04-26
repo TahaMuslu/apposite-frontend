@@ -1,6 +1,6 @@
 'use client';
-import Navbar from '@/components/Navbar';
-import Topbar from '@/components/Topbar';
+import Navbar from '@/app/(mainPages)/components/Navbar';
+import Topbar from '@/app/(mainPages)/components/Topbar';
 import React from 'react';
 
 const RootLayout = ({ children }: { children: React.ReactNode; }) => {

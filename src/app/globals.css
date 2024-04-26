@@ -25,3 +25,41 @@
 .ant-carousel .slick-dots :not(.slick-active) button {
     background-color: #929394 !important;
 }
+
+/* Custom Scrollbar */
+.custom-scrollbar {
+  --sb-track-color: #ececec;
+  --sb-thumb-color: #cecece;
+  --sb-thumb-color-active: #8f8f8f;
+  --sb-size: 0.5rem;
+  --sb-border-radius: 0.25rem;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  height: var(--sb-size);
+  width: var(--sb-size);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:active {
+  background: var(--sb-thumb-color-active);
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: var(--sb-track-color);
+  border-radius: var(--sb-border-radius)
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--sb-thumb-color);
+  border-radius: var(--sb-border-radius)
+  
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  .custom-scrollbar {
+    scrollbar-color: var(--sb-thumb-color)
+                     var(--sb-track-color);
+  }
+}
+
+/* Custom Scrollbar */

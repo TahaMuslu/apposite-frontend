@@ -9,7 +9,7 @@ import { IoIosLogOut } from 'react-icons/io';
 import { IoChatbubbleOutline, IoFastFoodOutline } from 'react-icons/io5';
 import { LuChefHat } from 'react-icons/lu';
 
-const NavbarButton = ({ children, routeHref, NavbarIcon, ...props }: React.ButtonHTMLAttributes<HTMLButtonElement> & { routeHref: string | null, NavbarIcon: IconType; }) => {
+const NavbarButton = ({ children, routeHref = undefined, NavbarIcon, ...props }: React.ButtonHTMLAttributes<HTMLButtonElement> & { routeHref?: string, NavbarIcon: IconType; }) => {
   const [curr_style, setCurr_style] = useState<string>('text-[#9ca3af]');
   const { logout } = useStore();
   const router = useRouter();
@@ -57,7 +57,7 @@ const Navbar = () => {
         <NavbarButton routeHref='/account' NavbarIcon={HiOutlineUser} />
       </Tooltip>
       <Tooltip title='Çıkış Yap' placement='right'>
-        <NavbarButton routeHref={null} NavbarIcon={IoIosLogOut} />
+        <NavbarButton NavbarIcon={IoIosLogOut} />
       </Tooltip>
 
     </div>
