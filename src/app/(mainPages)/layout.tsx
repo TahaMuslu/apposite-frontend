@@ -1,12 +1,9 @@
 'use client';
 import Navbar from '@/components/Navbar';
 import Topbar from '@/components/Topbar';
-import { useStore } from '@/store';
-import { Button } from 'antd';
 import React from 'react';
 
 const RootLayout = ({ children }: { children: React.ReactNode; }) => {
-  const { logout } = useStore();
   return (
     <div className='grid grid-cols-12 grid-rows-12 w-full min-h-screen overflow-x-hidden bg-[#f9fafb]'>
       <div className='row-span-1 col-span-12 grid-cols-12 grid'>

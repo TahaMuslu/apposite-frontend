@@ -24,6 +24,9 @@ export default withAuth(
       }
     }
 
+    if (req.nextUrl.pathname.split('/').length === 2 && req.nextUrl.pathname.split('/')[1] === "")
+      return NextResponse.redirect(new URL("/home", req.url));
+
     if (req.nextUrl.pathname !== req.nextUrl.pathname.toLowerCase())
       return NextResponse.redirect(new URL(req.nextUrl.pathname.toLowerCase(), req.url));
 
