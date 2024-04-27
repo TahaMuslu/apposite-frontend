@@ -17,7 +17,7 @@ const RootLayout = ({ children }: { children: React.ReactNode; }) => {
             <Navbar />
           </div>
         </div>
-        <div className='col-span-8 h-full overflow-x-hidden'>
+        <div className='col-span-8 h-full overflow-x-hidden pb-4'>
           {children}
         </div>
         <div className='col-span-2' />

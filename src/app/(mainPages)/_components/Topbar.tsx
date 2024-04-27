@@ -1,4 +1,5 @@
 'use client';
+import PrimaryButton from '@/components/PrimaryButton';
 import Image from 'next/image';
 import React from 'react';
 import { CiSearch } from 'react-icons/ci';
@@ -23,10 +24,9 @@ const Topbar = () => {
                         className='w-full h-full outline-none me-2 transition-colors duration-300' />
                     <CiSearch className='text-3xl text-gray-500 active:text-gray-900 cursor-pointer transition-colors duration-200' />
                 </div>
-                <button className='h-14 w-14 rounded-xl bg-red-500 hover:bg-red-600 text-white transition-colors duration-300 flex justify-center
-                 items-center shadow-lg shadow-gray-300 active:bg-red-700 active:duration-100'>
+                <PrimaryButton h={14} w={14}>
                     <VscSettings className='text-3xl' />
-                </button>
+                </PrimaryButton>
             </div>
             <div className='col-span-1'>
                 <button className='h-14 w-14 rounded-full bg-white hover:bg-gray-200 transition-colors duration-300 flex justify-center items-center shadow-lg
