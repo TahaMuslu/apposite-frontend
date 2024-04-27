@@ -10,7 +10,7 @@ interface ListItemProps {
 
 const ListItem = ({ title, ImageSrc, ...props }: React.HTMLAttributes<HTMLDivElement> & ListItemProps) => {
     return (
-        <div className='flex items-center gap-2 flex-col h-full min-w-24'>
+        <div className='flex items-center gap-2 flex-col h-full min-w-24 cursor-pointer'>
             <Image src={ImageSrc} alt='' className='w-24 h-24 object-cover rounded-lg' />
             <div>
                 <h1 className='text-sm font-normal'>{title}</h1>

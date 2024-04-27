@@ -3,8 +3,11 @@
 import Image from 'next/image';
 import React from 'react';
 import { HiOutlineUser } from 'react-icons/hi';
-import HorizontalList from './components/HorizontalList';
+import HorizontalList from './_components/HorizontalList';
 import { FaFire } from 'react-icons/fa';
+import CategoryCard from './_components/CategoryCard';
+
+
 
 const Home = () => {
 
@@ -20,8 +23,15 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <HorizontalList title='En Çok Beğenilen Tarifler' Icon={FaFire} Items={Array.from({length: 30}).map((_, index) => ({title:'Yemek Adı', ImageSrc:require('@/assets/images/food1.png')}))}  />
-      <HorizontalList title='Yeni Tarifleri Keşfedin' Icon={FaFire} Items={Array.from({length: 30}).map((_, index) => ({title:'Yemek Adı', ImageSrc:require('@/assets/images/food1.png')}))}  />
+      <HorizontalList title='En Çok Beğenilen Tarifler' Icon={FaFire} Items={Array.from({ length: 30 }).map((_, index) => ({ title: 'Yemek Adı', ImageSrc: require('@/assets/images/food1.png') }))} />
+      <HorizontalList title='Yeni Tarifleri Keşfedin' Icon={FaFire} Items={Array.from({ length: 30 }).map((_, index) => ({ title: 'Yemek Adı', ImageSrc: require('@/assets/images/food1.png') }))} />
+      <h1 className='text-xl font-semibold mt-6'>Kategoriler</h1>
+      <div className='flex'>
+        <CategoryCard title='Kahvaltı' ImageSrc={require('@/assets/illustrations/breakfastCategory.png')} />
+        <CategoryCard title='Öğle' ImageSrc={require('@/assets/illustrations/lunchCategory.png')} />
+        <CategoryCard title='Akşam' ImageSrc={require('@/assets/illustrations/dinnerCategory.png')} />
+        <CategoryCard title='Tatlı' ImageSrc={require('@/assets/illustrations/dessertCategory.png')} />
+      </div>
     </div>
   );
 };
