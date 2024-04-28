@@ -5,7 +5,7 @@ import React from 'react';
 
 const RootLayout = ({ children }: { children: React.ReactNode; }) => {
   return (
-    <div className='grid grid-cols-12 grid-rows-12 w-full min-h-screen overflow-x-hidden bg-[#f9fafb]'>
+    <div className='grid grid-cols-12 auto-rows-min w-full min-h-screen overflow-x-hidden bg-[#f9fafb]'>
       <div className='row-span-1 col-span-12 grid-cols-12 grid'>
         <div className='col-span-8 col-start-3'>
           <Topbar />

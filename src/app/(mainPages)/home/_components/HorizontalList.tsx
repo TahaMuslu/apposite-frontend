@@ -6,14 +6,15 @@ import { IconType } from 'react-icons';
 interface ListItemProps {
     title: string;
     ImageSrc: string;
+    id: string;
 }
 
 const ListItem = ({ title, ImageSrc, ...props }: React.HTMLAttributes<HTMLDivElement> & ListItemProps) => {
     return (
         <div className='flex items-center gap-2 flex-col h-full min-w-24 cursor-pointer'>
-            <Image src={ImageSrc} alt='' className='w-24 h-24 object-cover rounded-lg' />
+            <Image src={ImageSrc} alt='' width={1000} height={1000} className='w-24 h-24 object-cover rounded-lg' />
             <div>
-                <h1 className='text-sm font-normal'>{title}</h1>
+                <h1 className='text-sm font-normal'>{title.length > 20 ? title.substring(0,18)+"..." : title}</h1>
             </div>
         </div>
     );
@@ -31,7 +32,7 @@ const HorizontalList = ({ title, Icon, Items, ...props }: React.HTMLAttributes<H
                     Tümünü Görüntüle
                 </div>
             </div>
-            <div className='overflow-x-auto flex gap-4 px-4 py-2 scroll-smooth custom-scrollbar'>
+            <div className='overflow-x-auto flex gap-6 px-4 py-2 scroll-smooth custom-scrollbar'>
                 {Items.map((item, index) => <ListItem key={index} {...item} />)}
             </div>
         </div>
