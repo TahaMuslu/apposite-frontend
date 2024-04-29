@@ -1,6 +1,6 @@
 import { ENVIRONMENT } from "@/configurations";
 import axios, { AxiosInstance, AxiosResponse } from "axios";
-import { getSession } from "next-auth/react";
+import { getSession, signOut } from "next-auth/react";
 
 const HttpService: AxiosInstance = axios.create({
   baseURL: ENVIRONMENT.API_URL,
@@ -34,6 +34,11 @@ const responseManager = [
       !error.config.__isRetryRequest
     ) {
       error.config.__isRetryRequest = true;
+      await signOut({
+        callbackUrl: "/login",
+        redirect: true
+      });
+      localStorage.removeItem("apposite-refreshToken");
       // refreshTokenReq();
     }
     return Promise.reject(error);

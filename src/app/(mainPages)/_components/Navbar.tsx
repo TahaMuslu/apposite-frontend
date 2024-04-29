@@ -50,8 +50,8 @@ const Navbar = () => {
       <Tooltip title='Yapay Zeka' placement='right'>
         <NavbarButton routeHref='/airecipes' NavbarIcon={IoChatbubbleOutline} />
       </Tooltip>
-      <Tooltip title='Keşfet' placement='right'>
-        <NavbarButton routeHref='/explore' NavbarIcon={LuChefHat} />
+      <Tooltip title='Tariflerim' placement='right'>
+        <NavbarButton routeHref='/myrecipes' NavbarIcon={LuChefHat} />
       </Tooltip>
       <Tooltip title='Hesap' placement='right'>
         <NavbarButton routeHref='/account' NavbarIcon={HiOutlineUser} />
