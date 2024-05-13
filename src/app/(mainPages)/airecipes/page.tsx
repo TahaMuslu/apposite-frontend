@@ -2,21 +2,22 @@
 
 import React, { useEffect, useState } from 'react';
 import CreateRecipeCard from './_components/CreateRecipeCard';
-import { Drawer, Modal, Select } from 'antd';
+import { Checkbox, Drawer, Modal, Select } from 'antd';
 import PrimaryButton from '@/components/PrimaryButton';
 import HttpService from '@/services/httpService';
 import { AxiosResponse } from '@/services/types';
 import AiRecipeCard from './_components/AiRecipeCard';
+import { CheckboxChangeEvent } from 'antd/es/checkbox';
 
 const AiRecipes = () => {
   const [openFilter, setOpenFilter] = useState<boolean>(false);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [aiRecipes, setAiRecipes] = useState<any>([]);
   const [selectedCuisine, setSelectedCuisine] = useState<string[]>([]);
   const [selectedMeal, setSelectedMeal] = useState<string[]>([]);
   const [selectedIncludedIngredient, setSelectedIncludedIngredient] = useState<string[]>([]);
   const [selectedExcludedIngredient, setSelectedExcludedIngredient] = useState<string[]>([]);
   const [selectedHealth, setSelectedHealth] = useState<string[]>([]);
+  const [currFilter, setCurrFilter] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(false);
 
 
@@ -48,6 +49,27 @@ const AiRecipes = () => {
       console.log(err);
     });
   }, [loading]);
+
+  const changeMyInfo = (e: CheckboxChangeEvent) => {
+    if (e.target.checked) {
+      HttpService.get('User/getPersonalInfo').then((res: AxiosResponse) => {
+        if(currFilter === 1 || currFilter === 4)
+          setSelectedCuisine(res.data?.data?.cuisines?.map((cuisine: any) => cuisine.name))
+        if(currFilter === 2 || currFilter === 4)
+          setSelectedExcludedIngredient(res.data?.data?.ingredients?.map((ingredient: any) => ingredient.name));
+
+        setSelectedHealth(res.data?.data?.healths?.map((health: any) => health.name));
+      }).catch((err) => {
+        console.log(err);
+      });
+    } else {
+      if(currFilter === 1 || currFilter === 4)
+        setSelectedCuisine([]);
+      if(currFilter === 2 || currFilter === 4)
+        setSelectedExcludedIngredient([]);
+      setSelectedHealth([]);
+    }
+  };
 
 
   const handleCreateAiRecipe = () => {
@@ -84,17 +106,17 @@ const AiRecipes = () => {
       <h1 className='text-3xl font-bold mt-2'>Yapay Zeka İle Tarif Oluşturun</h1>
       <h6 className='text-md font-medium text-gray-500 mt-2'>Aşağıdaki seçenekler ile yapay zeka aracınızı kullanarak yepyeni tarifler oluşturun!</h6>
       <div className='flex justify-between mt-4 gap-4'>
-        <CreateRecipeCard title='Bölgeye Göre' description='Sevdiğiniz mutfakları seçin ve yapay zeka sizin için tarif önersin!' ImageSrc={require('@/assets/illustrations/createRecipeCuisine.png')} />
-        <CreateRecipeCard title='Malzemeye Göre' description='Elinizde kalan malzemeleri söyleyin, bu malzemeler ile tarif önersin!' ImageSrc={require('@/assets/illustrations/createRecipeIngredient.png')} />
-        <CreateRecipeCard title='Öğüne Göre' description='Hangi öğün için yemek yapacağınızı seçmeniz yeterli, gerisini yapay zekaya bırakın!' ImageSrc={require('@/assets/illustrations/createRecipeMeal.png')} />
-        <CreateRecipeCard onClick={() => setOpenFilter(true)} title='Filtreye Göre' description='Birden çok filtre ile daha özelleştirilmiş tarfiler oluşturun!' ImageSrc={require('@/assets/illustrations/createRecipeFilter.png')} />
+        <CreateRecipeCard onClick={() => {setCurrFilter(1);setOpenFilter(true);}} title='Bölgeye Göre' description='Sevdiğiniz mutfakları seçin ve yapay zeka sizin için tarif önersin!' ImageSrc={require('@/assets/illustrations/createRecipeCuisine.png')} />
+        <CreateRecipeCard onClick={() => {setCurrFilter(2);setOpenFilter(true);}} title='Malzemeye Göre' description='Elinizde kalan malzemeleri söyleyin, bu malzemeler ile tarif önersin!' ImageSrc={require('@/assets/illustrations/createRecipeIngredient.png')} />
+        <CreateRecipeCard onClick={() => {setCurrFilter(3);setOpenFilter(true);}} title='Öğüne Göre' description='Hangi öğün için yemek yapacağınızı seçmeniz yeterli, gerisini yapay zekaya bırakın!' ImageSrc={require('@/assets/illustrations/createRecipeMeal.png')} />
+        <CreateRecipeCard onClick={() => {setCurrFilter(4);setOpenFilter(true);}} title='Filtreye Göre' description='Birden çok filtre ile daha özelleştirilmiş tarfiler oluşturun!' ImageSrc={require('@/assets/illustrations/createRecipeFilter.png')} />
       </div>
       <h1 className='text-3xl font-bold mt-10'>Yapay Zeka İle Oluşturulan Tarifler</h1>
       <div className='flex flex-col gap-6 mt-4 overflow-y-auto custom-scrollbar pb-4'>
         {aiRecipes?.map((aiRecipe: any, index: number) => (
           <AiRecipeCard key={index} ImageSrc={require("@/assets/images/food1.png")} aiRecipe={aiRecipe} />
         ))
-          }
+        }
 
       </div>
 
@@ -106,6 +128,10 @@ const AiRecipes = () => {
       >
         <h6 className='text-md font-medium text-gray-800 mt-2'>Aşağıdaki seçenekler ile yapay zeka aracını kullanarak yepyeni tarifler oluşturun!</h6>
 
+      <Checkbox onChange={e => changeMyInfo(e)} className='mt-4'>Kendi kişisel bilgilerimi kullan</Checkbox>
+        {(currFilter === 1 || currFilter === 4) 
+        &&
+        <>
         <p className='text-lg font-semibold text-black mt-8'>Mutfak Seçin</p>
         <Select
           mode="tags"
@@ -117,41 +143,54 @@ const AiRecipes = () => {
           filterOption={false}
           notFoundContent={null}
         />
+        </>
+        }
 
-        <p className='text-lg font-semibold text-black mt-8'>Öğün Seçin</p>
-        <Select
-          mode="tags"
-          allowClear
-          className='w-11/12'
-          placeholder="Örn. Kahvaltı, Öğle, Akşam"
-          value={selectedMeal}
-          onChange={handleChangeMeal}
-          filterOption={false}
-          notFoundContent={null}
-        />
+        {(currFilter === 3 || currFilter === 4)
+          &&
+          <>
+            <p className='text-lg font-semibold text-black mt-8'>Öğün Seçin</p>
+            <Select
+              mode="tags"
+              allowClear
+              className='w-11/12'
+              placeholder="Örn. Kahvaltı, Öğle, Akşam"
+              value={selectedMeal}
+              onChange={handleChangeMeal}
+              filterOption={false}
+              notFoundContent={null}
+            />
+          </>
+        }
 
-        <p className='text-lg font-semibold text-black mt-8'>İçinde olması gereken malzemeleri Seçin</p>
-        <Select
-          mode="tags"
-          allowClear
-          className='w-11/12'
-          placeholder="Örn. Patates, Soğan, Domates"
-          onChange={handleChangeIncludedIngredient}
-          filterOption={false}
-          notFoundContent={null}
-        />
+        {(currFilter === 2 || currFilter === 4) 
+        &&
+          <>
+            <p className='text-lg font-semibold text-black mt-8'>İçinde olması gereken malzemeleri Seçin</p>
+            <Select
+              mode="tags"
+              allowClear
+              className='w-11/12'
+              placeholder="Örn. Patates, Soğan, Domates"
+              onChange={handleChangeIncludedIngredient}
+              value={selectedIncludedIngredient}
+              filterOption={false}
+              notFoundContent={null}
+            />
 
-        <p className='text-lg font-semibold text-black mt-8'>İçinde olmaması gereken malzemeleri Seçin</p>
-        <Select
-          mode="tags"
-          allowClear
-          className='w-11/12'
-          placeholder="Örn. Patates, Soğan, Domates"
-          onChange={handleChangeExcludedIngredient}
-          filterOption={false}
-          notFoundContent={null}
-        />
-
+            <p className='text-lg font-semibold text-black mt-8'>İçinde olmaması gereken malzemeleri Seçin</p>
+            <Select
+              mode="tags"
+              allowClear
+              className='w-11/12'
+              placeholder="Örn. Patates, Soğan, Domates"
+              onChange={handleChangeExcludedIngredient}
+              value={selectedExcludedIngredient}
+              filterOption={false}
+              notFoundContent={null}
+            />
+          </>
+        }
         <p className='text-lg font-semibold text-black mt-8'>Özel Sağlık Durumunu Seçin (varsa)</p>
         <Select
           mode="tags"
@@ -159,6 +198,7 @@ const AiRecipes = () => {
           className='w-11/12 mb-8'
           placeholder="Örn. Diyabet, Kolestrol"
           onChange={handleChangeHealth}
+          value={selectedHealth}
           filterOption={false}
           notFoundContent={null}
         />
