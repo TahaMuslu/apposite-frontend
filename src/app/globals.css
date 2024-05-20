@@ -1,33 +1,65 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* 
+[class~='ant-carousel'] {
+    [class~='slick-slider'] {
+      li button {
+            width: 6px;
+            height: 6px;
+            border-radius: 100%;
+          }
+       li.slick-active button {
+            width: 7px;
+            height: 7px;
+            border-radius: 100%;
+          }
+    }
+   
+} */
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+.ant-carousel .slick-active button {
+    background-color: #ea6d6d !important;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+.ant-carousel .slick-dots :not(.slick-active) button {
+    background-color: #929394 !important;
+}
+
+/* Custom Scrollbar */
+.custom-scrollbar {
+  --sb-track-color: #ececec;
+  --sb-thumb-color: #cecece;
+  --sb-thumb-color-active: #8f8f8f;
+  --sb-size: 0.5rem;
+  --sb-border-radius: 0.25rem;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  height: var(--sb-size);
+  width: var(--sb-size);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:active {
+  background: var(--sb-thumb-color-active);
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: var(--sb-track-color);
+  border-radius: var(--sb-border-radius)
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--sb-thumb-color);
+  border-radius: var(--sb-border-radius)
+  
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  .custom-scrollbar {
+    scrollbar-color: var(--sb-thumb-color)
+                     var(--sb-track-color);
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-}
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-}
+/* Custom Scrollbar */

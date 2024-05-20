@@ -1,13 +1,47 @@
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
+import { getToken } from "next-auth/jwt";
+import { NextRequestWithAuth, withAuth } from "next-auth/middleware";
+import { NextResponse } from "next/server";
+export default withAuth(
+  async function middleware(req: NextRequestWithAuth) {
+    const token = await getToken({ req });
+    const isAuth = !!token;
+    const isAuthPage =
+      req.nextUrl.pathname.toLowerCase().startsWith("/login") ||
+      req.nextUrl.pathname.toLowerCase().startsWith("/register");
 
-// This function can be marked `async` if using `await` inside
-export function middleware(request: NextRequest) {
-    console.log(request.nextUrl.pathname);
+    if (isAuthPage) {
+      if (isAuth)
+        return NextResponse.redirect(new URL("/", req.url));
+    } else {
+      if (!isAuth) {
+        let from = req.nextUrl.pathname;
+        if (req.nextUrl.search)
+          from += req.nextUrl.search;
+
+        return NextResponse.redirect(
+          new URL(`/login?from=${encodeURIComponent(from)}`, req.url)
+        );
+      }
+    }
+
+    if (req.nextUrl.pathname.split('/').length === 2 && req.nextUrl.pathname.split('/')[1] === "")
+      return NextResponse.redirect(new URL("/home", req.url));
+
+    if (req.nextUrl.pathname !== req.nextUrl.pathname.toLowerCase())
+      return NextResponse.redirect(new URL(req.nextUrl.pathname.toLowerCase(), req.url));
+
     return NextResponse.next();
-}
 
-// See "Matching Paths" below to learn more
+  },
+  {
+    callbacks: {
+      async authorized() {
+        return true;
+      },
+    },
+  }
+);
+
 export const config = {
-    matcher: '/((?!api|_next/static|_next/image|favicon.ico|.*\.svg).*)'
+  matcher: "/((?!images|verifyMail).*)",
 };
