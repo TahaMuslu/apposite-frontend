@@ -2,13 +2,20 @@
 import PrimaryButton from '@/components/PrimaryButton';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
-import React from 'react';
+import { useRouter } from 'next/navigation';
+import React, { useState } from 'react';
 import { CiSearch } from 'react-icons/ci';
 import { IoMdNotificationsOutline } from 'react-icons/io';
 import { VscSettings } from 'react-icons/vsc';
 
 const Topbar = () => {
     const session = useSession();
+    const [searchText, setSearchText] = useState('');
+    const router = useRouter();
+
+    const handleSearch = () => {
+        router.push(`/recipes?searchText=${searchText}`);
+    };
 
     return (
         <div className='h-full grid grid-cols-12 place-items-center gap-2 py-6'>
@@ -24,8 +31,11 @@ const Topbar = () => {
                     hover:border shadow-lg border-white shadow-gray-300 flex items-center'>
                     <input type='text'
                         placeholder='Tarif Ara...'
-                        className='w-full h-full outline-none me-2 transition-colors duration-300' />
-                    <CiSearch className='text-3xl text-gray-500 active:text-gray-900 cursor-pointer transition-colors duration-200' />
+                        className='w-full h-full outline-none me-2 transition-colors duration-300'
+                        value={searchText}
+                        onChange={(e) => setSearchText(e.target.value)}
+                    />
+                    <CiSearch onClick={handleSearch} className='text-3xl text-gray-500 active:text-gray-900 cursor-pointer transition-colors duration-200' />
                 </div>
                 <PrimaryButton h={14} w={14}>
                     <VscSettings className='text-3xl' />
