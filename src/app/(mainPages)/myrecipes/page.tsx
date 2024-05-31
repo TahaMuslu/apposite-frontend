@@ -15,6 +15,9 @@ const Explore = () => {
 
   const { showNotification } = useStore();
 
+  useEffect(() => {
+    document.title = "Tariflerim";
+  }, []);
 
   useEffect(() => {
     HttpService.get('Recipe/getMyRecipes?Page=1&PageSize=10').then((res: AxiosResponse) => {

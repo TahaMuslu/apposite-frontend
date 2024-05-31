@@ -17,8 +17,12 @@ const Home = () => {
   const [newRecipes, setNewRecipes] = useState<any[]>([]);
 
   useEffect(() => {
+    document.title = "Ana Sayfa";
+  }, []);
 
-    HttpService.get('recipe/get?PageSize=1').then((response: AxiosResponse) => {
+  useEffect(() => {
+
+    HttpService.get('recipe/get?PageSize=1&Page=4').then((response: AxiosResponse) => {
       setMealOfTheWeek(response.data?.data?.[0]);
     }).catch((res) => {
       console.log(res);
@@ -30,7 +34,7 @@ const Home = () => {
       console.log(res);
     });
 
-    HttpService.get('recipe/get?PageSize=30&PageNumber=2').then((response: AxiosResponse) => {
+    HttpService.get('recipe/get?PageSize=30&Page=2').then((response: AxiosResponse) => {
       setNewRecipes(response.data?.data);
     }).catch((res) => {
       console.log(res);

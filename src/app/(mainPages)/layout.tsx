@@ -1,12 +1,18 @@
 'use client';
 import Navbar from '@/app/(mainPages)/_components/Navbar';
 import Topbar from '@/app/(mainPages)/_components/Topbar';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 
 const RootLayout = ({ children }: { children: React.ReactNode; }) => {
+  const router = useRouter();
   return (
     <div className='grid grid-cols-12 auto-rows-min w-full min-h-screen overflow-x-hidden bg-[#f9fafb]'>
       <div className='row-span-1 col-span-12 grid-cols-12 grid'>
+        <div className='col-span-1 place-self-start self-center ms-6 cursor-pointer' onClick={()=>router.push("/")}>
+          <Image src={require("@/assets/images/aromai-logo-new.png")} alt="Profile Picture" className="h-14 w-14 rounded-xl" />
+        </div>
         <div className='col-span-8 col-start-3'>
           <Topbar />
         </div>

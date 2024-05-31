@@ -100,6 +100,10 @@ const FirstLogin = () => {
         handleSearchIngredient('');
     }, []);
 
+    useEffect(() => {
+        document.title = "Kişiselleştirme";
+      }, []);
+
 
     const handleSearchIngredient = (value: string) => {
         let url = `Ingredient/get?searchText=${value}`;

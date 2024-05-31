@@ -28,6 +28,11 @@ const Recipes = () => {
     });
   }, [params.get('searchText')]);
 
+
+  useEffect(() => {
+    document.title = "Aranan Tarif: "+params.get('searchText') ?? "Tarifler";
+  }, []);
+
   return (
     <div className='w-full'>
       <div className='flex justify-between items-center'>
