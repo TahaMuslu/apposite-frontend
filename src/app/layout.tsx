@@ -65,7 +65,14 @@ export default function RootLayout({
                   defaultActiveBg: "rgb(239, 68, 68) !important",
                   colorIconHover: "rgb(239, 68, 68) !important",
                   defaultHoverBorderColor: "rgb(239, 68, 68) !important",
-                }
+                },
+                Tabs: {
+                  colorPrimary: "rgb(220, 38, 38) !important",
+                  colorPrimaryBorder: "rgb(220, 38, 38) !important",
+                  colorPrimaryHover: "rgb(239, 68, 68) !important",
+                  colorPrimaryBorderHover: "rgb(239, 68, 68) !important",
+                },
+
               },
               token: {
               }

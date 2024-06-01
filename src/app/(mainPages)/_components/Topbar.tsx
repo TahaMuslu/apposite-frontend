@@ -13,9 +13,9 @@ const Topbar = () => {
     return (
         <div className='h-full grid grid-cols-12 place-items-center gap-2 py-6'>
             <div className='flex items-center justify-start col-span-4 gap-2 w-full'>
-                <Image src={require("@/assets/images/efsanevi.png")} alt="Profile Picture" className="h-14 w-14 rounded-xl bg-red-300 col-span-1" />
+                {/* <Image src={require("@/assets/images/efsanevi.png")} alt="Profile Picture" className="h-14 w-14 rounded-xl bg-red-300 col-span-1" /> */}
                 <div className='flex flex-col'>
-                    <h1 className='text-2xl font-semibold'>Merhaba&nbsp;<span className='text-red-500'>{session.data?.user.name},</span></h1>
+                    <h1 className='text-2xl font-semibold'>Merhaba&nbsp;<span className='text-red-500'>{session.data?.user.name}</span></h1>
                     <p className='text-sm text-gray-400'>Bugün hangi yemeği yapmak istersin?</p>
                 </div>
             </div>

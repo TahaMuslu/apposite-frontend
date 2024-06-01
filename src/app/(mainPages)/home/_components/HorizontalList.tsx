@@ -1,4 +1,5 @@
 'use client';
+import { useRouter } from 'next/router';
 import Image from 'next/image';
 import React from 'react';
 import { IconType } from 'react-icons';
@@ -9,9 +10,16 @@ interface ListItemProps {
     id: string;
 }
 
-const ListItem = ({ title, ImageSrc, ...props }: React.HTMLAttributes<HTMLDivElement> & ListItemProps) => {
+const ListItem = ({ title, ImageSrc, id, ...props }: React.HTMLAttributes<HTMLDivElement> & ListItemProps) => {
+    const handleClick = () => {
+        window.location.href = `/recipedetail/${id}`;
+    };
+
     return (
-        <div className='flex items-center gap-2 flex-col h-full min-w-24 cursor-pointer'>
+        <div 
+            className='flex items-center gap-2 flex-col h-full min-w-24 cursor-pointer'
+            onClick={handleClick}
+        >
             <Image src={ImageSrc} alt='' width={1000} height={1000} className='w-24 h-24 object-cover rounded-lg' />
             <div>
                 <h1 className='text-sm font-normal'>{title.length > 20 ? title.substring(0,18)+"..." : title}</h1>
@@ -21,6 +29,8 @@ const ListItem = ({ title, ImageSrc, ...props }: React.HTMLAttributes<HTMLDivEle
 };
 
 const HorizontalList = ({ title, Icon, Items, ...props }: React.HTMLAttributes<HTMLDivElement> & { title: string, Icon?: IconType, Items: ListItemProps[]; }) => {
+
+
     return (
         <div className='w-full' {...props}>
             <div className='w-full flex items-center justify-between py-4'>
@@ -32,7 +42,10 @@ const HorizontalList = ({ title, Icon, Items, ...props }: React.HTMLAttributes<H
                     Tümünü Görüntüle
                 </div>
             </div>
-            <div className='overflow-x-auto flex gap-6 px-4 py-2 scroll-smooth custom-scrollbar'>
+            <div 
+                className='overflow-x-auto flex gap-6 px-4 py-2 scroll-smooth custom-scrollbar'
+    
+                >
                 {Items.map((item, index) => <ListItem key={index} {...item} />)}
             </div>
         </div>
