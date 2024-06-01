@@ -20,6 +20,10 @@ const AiRecipes = () => {
   const [currFilter, setCurrFilter] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(false);
 
+  useEffect(() => {
+    document.title = "Yapay Zeka Tarifi";
+  }, []);
+
 
   const handleChangeCuisine = (value: string[]) => {
     setSelectedCuisine([value[value.length - 1]]);

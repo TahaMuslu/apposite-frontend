@@ -6,7 +6,7 @@ import { Button, Carousel, Col, Input, Row } from 'antd';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const Register = () => {
   const { register, showNotification } = useStore();
@@ -21,6 +21,10 @@ const Register = () => {
     password: "",
     passwordAgain: ""
   });
+
+  useEffect(() => {
+    document.title = "Kayıt Ol";
+  }, []);
 
   const registerControl = () => {
     if (registerData.password !== registerData.passwordAgain) {

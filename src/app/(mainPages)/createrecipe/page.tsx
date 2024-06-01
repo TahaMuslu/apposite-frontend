@@ -6,7 +6,7 @@ import { useStore } from '@/store';
 import { Button, Input, Select, Spin } from 'antd';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import { LuImagePlus } from 'react-icons/lu';
 import { useDebouncedCallback } from 'use-debounce';
@@ -50,6 +50,10 @@ const CreateRecipe = () => {
     const [recipeUploadLoading, setRecipeUploadLoading] = useState<boolean>(false);
 
     const { showNotification } = useStore();
+
+    useEffect(() => {
+        document.title = "Tarif Oluştur";
+      }, []);
 
     const myCarousel = useRef<HTMLDivElement>(null);
 
@@ -145,6 +149,14 @@ const CreateRecipe = () => {
         }).finally(() => {
             setCuisineFetchLoading(false);
         });
+    };
+
+
+    const deleteStep = (index: number) => {
+        let newSteps = [...recipe.recipeSteps];
+        newSteps.splice(index, 1);
+        newSteps = newSteps.map((step, index) => ({ ...step, stepNumber: index + 1 }));
+        setRecipe({ ...recipe, recipeSteps: newSteps });
     };
 
     return (
@@ -299,10 +311,12 @@ const CreateRecipe = () => {
                 <div className='w-full grid grid-cols-1 gap-4'>
                     {recipe.recipeSteps?.map((step, index) => (
                         <div key={index} className='w-full flex gap-4'>
-                            <div className='w-10 h-10 rounded-full border-red-300 border-2 flex flex-col justify-center items-center text-red-400 select-none'>
-                                <span>{step.stepNumber}</span>
+                            <div onClick={()=> deleteStep(index)} className='group w-10 h-10 rounded-full border-red-300 border-2 flex flex-col justify-center items-center cursor-pointer text-red-400 select-none'>
+                                <div className='group-hover:hidden'>{step.stepNumber}</div>
+                                <div className='hidden group-hover:block'>X</div>
                             </div>
-                            <Input.TextArea className='w-full h-36 border border-gray-300 rounded-lg px-4' onChange={(e) => {
+                            <Input.TextArea className='w-full h-36 border border-gray-300 rounded-lg px-4' value={step.description}
+                             onChange={(e) => {
                                 let newSteps = [...recipe.recipeSteps];
                                 newSteps[index].description = e.target.value;
                                 setRecipe({ ...recipe, recipeSteps: newSteps });

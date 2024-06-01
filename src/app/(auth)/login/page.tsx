@@ -3,7 +3,7 @@
 import { useStore } from '@/store';
 import { Button, Carousel, Col, Row } from 'antd';
 import { useSearchParams } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Input } from 'antd';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -17,6 +17,10 @@ const Login = () => {
     email: "admin@admin.com",
     password: "P@ssw0rd"
   });
+
+  useEffect(() => {
+    document.title = "Giriş Yap";
+  }, []);
 
 
   const searchParams = useSearchParams();
