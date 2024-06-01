@@ -149,17 +149,14 @@ const FirstLogin = () => {
 
     const handleChangeIngredient = (value: string[]) => {
         setSelectedIngredients(value);
-        console.log(value);
     };
 
     const handleChangeHealth = (value: string[]) => {
         setSelectedHealths(value);
-        console.log(value);
     };
 
     const handleChangeCuisine = (value: string[]) => {
         setSelectedCuisines(value);
-        console.log(value);
     };
 
     return (

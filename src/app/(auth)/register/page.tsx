@@ -43,7 +43,6 @@ const Register = () => {
       });
       route.push("/login");
     }).catch((res: AxiosResponse) => {
-      console.log(res.data?.messages?.join("\n"));
       showNotification({
         message: "Kayıt Başarısız",
         type: "error",

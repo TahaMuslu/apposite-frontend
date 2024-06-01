@@ -39,11 +39,9 @@ const RecipeDetail = () => {
     useEffect(() => {
         setLoading(true);
         HttpService.get(`Recipe/getById/${params.id}`).then((response: AxiosResponse) => {
-            console.log(response.data.data);
             setMeal(response.data.data);
             setLoading(false);
         }).catch((res) => {
-            console.log(res);
             setLoading(false);
         })
     }, [params.id]);
