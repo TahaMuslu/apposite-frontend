@@ -20,7 +20,7 @@ const Explore = () => {
   }, []);
 
   useEffect(() => {
-    HttpService.get('Recipe/getMyRecipes?Page=1&PageSize=10').then((res: AxiosResponse) => {
+    HttpService.get('Recipe/getMyRecipes?Page=1&PageSize=100').then((res: AxiosResponse) => {
       if (res.status === 200) {
         setRecipes(res.data?.data);
       } else {

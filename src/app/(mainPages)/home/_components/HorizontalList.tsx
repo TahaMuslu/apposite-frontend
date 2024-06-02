@@ -1,5 +1,5 @@
 'use client';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import React from 'react';
 import { IconType } from 'react-icons';
@@ -30,6 +30,7 @@ const ListItem = ({ title, ImageSrc, id, ...props }: React.HTMLAttributes<HTMLDi
 
 const HorizontalList = ({ title, Icon, Items, ...props }: React.HTMLAttributes<HTMLDivElement> & { title: string, Icon?: IconType, Items: ListItemProps[]; }) => {
 
+    const router = useRouter()
 
     return (
         <div className='w-full' {...props}>
@@ -38,8 +39,8 @@ const HorizontalList = ({ title, Icon, Items, ...props }: React.HTMLAttributes<H
                     <h1 className='text-xl font-semibold'>{title}</h1>
                     {Icon && <Icon className='text-red-500 h-5 w-5 ms-2' />}
                 </div>
-                <div className='text-sm text-gray-400 cursor-pointer hover:text-gray-500 active:text-gray-800 select-none transition-colors duration-150'>
-                    Tümünü Görüntüle
+                <div onClick={()=>router.push("/recipes")} className='text-sm text-gray-400 cursor-pointer hover:text-gray-500 active:text-gray-800 select-none transition-colors duration-150'>
+                    {title==="Tüm Tarifler" ? "Tümünü Gör" : ""}
                 </div>
             </div>
             <div 

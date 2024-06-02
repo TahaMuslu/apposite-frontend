@@ -25,9 +25,8 @@ const RootLayout = ({ children }: { children: React.ReactNode; }) => {
         </div>
         <div className='col-span-8 h-full overflow-x-hidden pb-4'>
           {children}
-
           <div className='flex justify-center mt-10 mb-2'>
-            <p className='text-gray-400 dark:text-gray-600'>© 2021 AromAI. All rights reserved.</p>
+            <p className='text-gray-400 dark:text-gray-600'>© 2024 AromAI. All rights reserved.</p>
           </div>
         </div>
         <div className='col-span-2' />

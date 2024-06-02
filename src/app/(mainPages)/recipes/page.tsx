@@ -17,7 +17,7 @@ const Recipes = () => {
 
 
   useEffect(() => {
-    HttpService.get('Recipe/get?Page=1&PageSize=10'+(params.get('searchText') ? '&SearchText='+params.get('searchText'):"")).then((res: AxiosResponse) => {
+    HttpService.get('Recipe/get?Page=1&PageSize=100'+(params.get('searchText') ? '&SearchText='+params.get('searchText'):"")).then((res: AxiosResponse) => {
       if (res.status === 200) {
         setRecipes(res.data?.data);
       } else {
