@@ -56,7 +56,7 @@ const RecipeDetail = () => {
                     </div>
                 ) : (
                     <div className='w-full'>
-                        <div className='w-full h-40 overflow-y-hidden rounded-xl relative bg-black'>
+                        <div className='w-full h-96 overflow-y-hidden rounded-xl relative bg-black'>
                             <Image src={require("@/assets/images/food1.png")} width={1000} priority height={1000} alt='' className='object-cover w-full -translate-y-32 opacity-60' />
                             <div className='absolute bottom-0 left-0 ps-4 pb-4'>
                                 <h1 className='text-lg font-normal text-white'>{meal?.name}</h1>
