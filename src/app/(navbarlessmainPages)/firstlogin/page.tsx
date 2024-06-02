@@ -112,7 +112,15 @@ const FirstLogin = () => {
         HttpService.get(url).then((res: AxiosResponse) => {
             if (res.data?.data) {
                 setOptionsIngredient([]);
-                res.data.data.forEach((ingredient: any) => setOptionsIngredient((prev) => [...prev, { value: ingredient.id, label: ingredient.name }]));
+                let temp: any[] = [];
+                for(let i = 0; i < res.data.data.length; i++){
+                    if(temp.some((x: any) => x.name === res?.data?.data[i].name)){
+                        continue;
+                    }
+                    temp.push(res.data.data[i]);
+                }
+
+                temp.forEach((ingredient: any) => setOptionsIngredient((prev) => [...prev, { value: ingredient.id, label: ingredient.name }]));
             }
         }).finally(() => {
             setLoading(false);
@@ -126,7 +134,14 @@ const FirstLogin = () => {
         HttpService.get(url).then((res: AxiosResponse) => {
             if (res.data?.data) {
                 setOptionsHealth([]);
-                res.data.data.forEach((health: any) => setOptionsHealth((prev) => [...prev, { value: health.id, label: health.name }]));
+                let temp: any[] = [];
+                for(let i = 0; i < res.data.data.length; i++){
+                    if(temp.some((x: any) => x.name === res?.data?.data[i].name)){
+                        continue;
+                    }
+                    temp.push(res.data.data[i]);
+                }
+                temp.forEach((health: any) => setOptionsHealth((prev) => [...prev, { value: health.id, label: health.name }]));
             }
         }).finally(() => {
             setLoading(false);
@@ -140,7 +155,14 @@ const FirstLogin = () => {
         HttpService.get(url).then((res: AxiosResponse) => {
             if (res.data?.data) {
                 setOptionsCuisine([]);
-                res.data.data.forEach((cuisine: any) => setOptionsCuisine((prev) => [...prev, { value: cuisine.id, label: cuisine.name }]));
+                let temp: any[] = [];
+                for(let i = 0; i < res.data.data.length; i++){
+                    if(temp.some((x: any) => x.name === res?.data?.data[i].name)){
+                        continue;
+                    }
+                    temp.push(res.data.data[i]);
+                }
+                temp.forEach((cuisine: any) => setOptionsCuisine((prev) => [...prev, { value: cuisine.id, label: cuisine.name }]));
             }
         }).finally(() => {
             setLoading(false);
