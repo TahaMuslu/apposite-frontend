@@ -3,6 +3,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import React from 'react';
 import { IconType } from 'react-icons';
+import { Spin } from 'antd';
 
 interface ListItemProps {
     title: string;
@@ -44,9 +45,10 @@ const HorizontalList = ({ title, Icon, Items, ...props }: React.HTMLAttributes<H
                 </div>
             </div>
             <div 
-                className='overflow-x-auto flex gap-6 px-4 py-2 scroll-smooth custom-scrollbar'
+                className='overflow-x-auto flex gap-6 px-4 py-2 scroll-smooth custom-scrollbar w-full'
     
                 >
+                {Items.length === 0 && <Spin className='mx-auto' size='default' />}
                 {Items.map((item, index) => <ListItem key={index} {...item} />)}
             </div>
         </div>

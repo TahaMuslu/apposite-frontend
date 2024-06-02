@@ -9,6 +9,7 @@ import HttpService from '@/services/httpService';
 import { AxiosResponse } from '@/services/types';
 import { useStore } from '@/store';
 import { useRouter } from 'next/navigation';
+import { Spin } from 'antd';
 
 
 
@@ -49,15 +50,24 @@ const Home = () => {
 
   return (
     <div className='w-full'>
-      <div onClick={()=> router.push("/recipedetail/"+mealOfTheWeek.id)} className='w-full h-40 overflow-y-hidden rounded-xl relative bg-black cursor-pointer'>
-        <Image src={mealOfTheWeek?.imageUrl} width={1000} priority height={1000} alt='' className='object-cover w-full -translate-y-32 opacity-60' />
-        <div className='absolute bottom-0 left-0 ps-4 pb-4'>
-          <h1 className='text-lg font-normal text-white'>{mealOfTheWeek?.title}</h1>
-          <p className='text-xs font-light text-white w-80'>{mealOfTheWeek?.description}</p>
-          <div className='text-gray-400 text-sm flex items-center gap-2 mt-1'>
-            <HiOutlineUser /><span className='text-xs'>{mealOfTheWeek?.user.name + " " + mealOfTheWeek?.user.surname}</span>
+      <div onClick={() => router.push("/recipedetail/" + mealOfTheWeek.id)} className='w-full h-40 overflow-y-hidden rounded-xl relative bg-gray-600 cursor-pointer'>
+        {mealOfTheWeek
+          ?
+          <>
+            <Image src={mealOfTheWeek?.imageUrl} width={1000} priority height={1000} alt='' className='object-cover w-full -translate-y-32 opacity-60' />
+            <div className='absolute bottom-0 left-0 ps-4 pb-4'>
+              <h1 className='text-lg font-normal text-white'>{mealOfTheWeek?.title}</h1>
+              <p className='text-xs font-light text-white w-80'>{mealOfTheWeek?.description}</p>
+              <div className='text-gray-400 text-sm flex items-center gap-2 mt-1'>
+                <HiOutlineUser /><span className='text-xs'>{mealOfTheWeek?.user.name + " " + mealOfTheWeek?.user.surname}</span>
+              </div>
+            </div>
+          </>
+          :
+          <div className='w-full flex justify-center items-center h-full'>
+            <Spin size='large' />
           </div>
-        </div>
+        }
       </div>
       <HorizontalList title='Tüm Tarifler' Icon={FaFire} Items={mostLikedRecipes.map((item, index) => ({ title: item.title, ImageSrc: item.imageUrl, id: item.id }))} />
       <HorizontalList title='Yeni Tarifleri Keşfedin' Icon={FaFire} Items={newRecipes.map((item, index) => ({ title: item.title, ImageSrc: item.imageUrl, id: item.id }))} />
