@@ -31,13 +31,13 @@ const Home = () => {
       console.log(res);
     });
 
-    HttpService.get('recipe/get?PageSize=30').then((response: AxiosResponse) => {
+    HttpService.get('recipe/get?PageSize=10&Page=1').then((response: AxiosResponse) => {
       setMostLikedRecipes(response.data?.data);
     }).catch((res) => {
       console.log(res);
     });
 
-    HttpService.get('recipe/get?PageSize=30&Page=2').then((response: AxiosResponse) => {
+    HttpService.get('recipe/get?PageSize=10&Page=2').then((response: AxiosResponse) => {
       setNewRecipes(response.data?.data);
     }).catch((res) => {
       console.log(res);
