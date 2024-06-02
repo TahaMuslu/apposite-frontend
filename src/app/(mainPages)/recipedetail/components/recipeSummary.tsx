@@ -16,9 +16,9 @@ const RecipeSummary = ({ meal }: RecipeSummaryProps) => {
         <div className='w-full'>
             <div className='w-full h-40 overflow-y-hidden rounded-xl relative'>
                 <div className='absolute top-12 left-0 '>
-                    <h1 className='text-lg font-normal'>{meal?.title}</h1>
+                    <h1 className='text-xl font-normal'>{meal?.title}</h1>
                     <br></br>
-                    <p className='text-xs font-light w-80'>{meal?.description}</p>
+                    <p className='text-md font-light'>{meal?.description}</p>
                 </div>
             </div>
 

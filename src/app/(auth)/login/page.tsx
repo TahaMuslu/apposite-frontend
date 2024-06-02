@@ -11,7 +11,7 @@ import Link from 'next/link';
 const Login = () => {
   const [loading, setLoading] = useState<boolean>();
 
-  const { login,showNotification } = useStore();
+  const { login, showNotification } = useStore();
 
   const [loginData, setLoginData] = useState({
     email: "admin@admin.com",
@@ -45,7 +45,8 @@ const Login = () => {
             <Row justify={"center"}>
               <Col md={20} xs={22}>
                 <p className="text-center text-base text-secondary dark:text-gray-400 mt-2 pr-5 pl-5">
-                  Lorem ipsum dolor sit amet consectetur. Metus gravida enim lacus orci purus dictumst pellentesque potenti. Odio sit sed ut proin.                    </p>
+                  Özgün olarak oluşturduğunuz tarifleri paylaşarak diğer kullanıcılarla etkileşime geçin.
+                </p>
               </Col>
             </Row>
           </div>
@@ -63,7 +64,8 @@ const Login = () => {
             <Row justify={"center"}>
               <Col md={20} xs={22}>
                 <p className="text-center text-base text-secondary dark:text-gray-400 mt-2 pr-5 pl-5">
-                  Lorem ipsum dolor sit amet consectetur. Metus gravida enim lacus orci purus dictumst pellentesque potenti. Odio sit sed ut proin.                    </p>
+                  Kendi damak tadınıza uygun tarifler oluşturarak diğer kullanıcılarla paylaşın.
+                </p>
               </Col>
             </Row>
           </div>
@@ -81,7 +83,8 @@ const Login = () => {
             <Row justify={"center"}>
               <Col md={20} xs={22}>
                 <p className="text-center text-base text-secondary dark:text-gray-400 mt-2 pr-5 pl-5">
-                  Lorem ipsum dolor sit amet consectetur. Metus gravida enim lacus orci purus dictumst pellentesque potenti. Odio sit sed ut proin.                    </p>
+                  Kullanım tarihi yaklaşan malzemelerinizi değerlendirerek israfı önleyin.
+                </p>
               </Col>
             </Row>
           </div>
@@ -131,7 +134,7 @@ const Login = () => {
               size='large'
             />
           </div>
-          <p className='w-min ms-auto text-nowrap mt-2 text-sm text-red-500 cursor-pointer'>Şifremi Unuttum</p>
+          {/* <p className='w-min ms-auto text-nowrap mt-2 text-sm text-red-500 cursor-pointer'>Şifremi Unuttum</p> */}
           <Button
             onClick={() => {
               setLoading(true);
@@ -139,8 +142,8 @@ const Login = () => {
                 callbackUrl: from || "/",
                 requestData: loginData
               })
-              .catch(() => showNotification({ type: "error", message: "Giriş Yapılamadı" }))
-              .finally(() => setLoading(false));
+                .catch(() => showNotification({ type: "error", message: "Giriş Yapılamadı" }))
+                .finally(() => setLoading(false));
             }}
             type='primary'
             className='mt-8 bg-red-500 hover:bg-red-600 w-full h-10'

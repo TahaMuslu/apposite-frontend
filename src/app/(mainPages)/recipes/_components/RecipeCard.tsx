@@ -1,11 +1,13 @@
 'use client';
 import { Tag } from 'antd';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 
-const RecipeCard = ({ ImageSrc, title, description, calories, preparationTime }: { ImageSrc: string, title: string, description: string, calories: string | number, preparationTime: number; }) => {
+const RecipeCard = ({Id ,ImageSrc, title, description, calories, preparationTime }: { Id: string,ImageSrc: string, title: string, description: string, calories: string | number, preparationTime: number; }) => {
+    const router = useRouter();
     return (
-        <div className='w-full h-32 bg-white shadow-lg rounded-xl grid grid-cols-12 cursor-pointer hover:bg-gray-100 active:bg-gray-200 active:duration-150 transition-colors duration-300'>
+        <div onClick={()=> router.push("/recipedetail/"+Id)} className='w-full h-32 bg-white shadow-lg rounded-xl grid grid-cols-12 cursor-pointer hover:bg-gray-100 active:bg-gray-200 active:duration-150 transition-colors duration-300'>
             <div className='col-span-2 flex justify-center items-center'>
                 <Image src={ImageSrc} width={1000} height={1000} alt="Recipe Image" className='w-28 h-24 object-cover rounded-lg' />
             </div>

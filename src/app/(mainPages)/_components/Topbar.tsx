@@ -3,7 +3,7 @@ import PrimaryButton from '@/components/PrimaryButton';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CiSearch } from 'react-icons/ci';
 import { FaRegUser } from 'react-icons/fa';
 import { VscSettings } from 'react-icons/vsc';
@@ -16,6 +16,17 @@ const Topbar = () => {
     const handleSearch = () => {
         router.push(`/recipes?searchText=${searchText}`);
     };
+
+    useEffect(() => {
+        const handleEnter = (e: KeyboardEvent) => {
+            if (e.key === 'Enter') {
+                if (searchText === '') return;
+                handleSearch();
+            }
+        };
+        window.addEventListener('keydown', handleEnter);
+        return () => window.removeEventListener('keydown', handleEnter);
+    }, [searchText]);
 
     return (
         <div className='h-full grid grid-cols-12 place-items-center gap-2 py-6'>

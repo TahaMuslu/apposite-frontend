@@ -8,6 +8,7 @@ import { FaFire } from 'react-icons/fa';
 import HttpService from '@/services/httpService';
 import { AxiosResponse } from '@/services/types';
 import { useStore } from '@/store';
+import { useRouter } from 'next/navigation';
 
 
 
@@ -15,6 +16,8 @@ const Home = () => {
   const [mealOfTheWeek, setMealOfTheWeek] = useState<any>(null);
   const [mostLikedRecipes, setMostLikedRecipes] = useState<any[]>([]);
   const [newRecipes, setNewRecipes] = useState<any[]>([]);
+
+  const router = useRouter();
 
   useEffect(() => {
     document.title = "Ana Sayfa";
@@ -46,7 +49,7 @@ const Home = () => {
 
   return (
     <div className='w-full'>
-      <div className='w-full h-40 overflow-y-hidden rounded-xl relative bg-black'>
+      <div onClick={()=> router.push("/recipedetail/"+mealOfTheWeek.id)} className='w-full h-40 overflow-y-hidden rounded-xl relative bg-black cursor-pointer'>
         <Image src={mealOfTheWeek?.imageUrl} width={1000} priority height={1000} alt='' className='object-cover w-full -translate-y-32 opacity-60' />
         <div className='absolute bottom-0 left-0 ps-4 pb-4'>
           <h1 className='text-lg font-normal text-white'>Haftanın Yemeği - {mealOfTheWeek?.title}</h1>

@@ -70,7 +70,8 @@ const Register = () => {
             <Row justify={"center"}>
               <Col md={20} xs={22}>
                 <p className="text-center text-base text-secondary dark:text-gray-400 mt-2 pr-5 pl-5">
-                  Lorem ipsum dolor sit amet consectetur. Metus gravida enim lacus orci purus dictumst pellentesque potenti. Odio sit sed ut proin.                    </p>
+                  Özgün olarak oluşturduğunuz tarifleri paylaşarak diğer kullanıcılarla etkileşime geçin.
+                </p>
               </Col>
             </Row>
           </div>
@@ -88,7 +89,8 @@ const Register = () => {
             <Row justify={"center"}>
               <Col md={20} xs={22}>
                 <p className="text-center text-base text-secondary dark:text-gray-400 mt-2 pr-5 pl-5">
-                  Lorem ipsum dolor sit amet consectetur. Metus gravida enim lacus orci purus dictumst pellentesque potenti. Odio sit sed ut proin.                    </p>
+                  Kendi damak tadınıza uygun tarifler oluşturarak diğer kullanıcılarla paylaşın.
+                </p>
               </Col>
             </Row>
           </div>
@@ -106,7 +108,8 @@ const Register = () => {
             <Row justify={"center"}>
               <Col md={20} xs={22}>
                 <p className="text-center text-base text-secondary dark:text-gray-400 mt-2 pr-5 pl-5">
-                  Lorem ipsum dolor sit amet consectetur. Metus gravida enim lacus orci purus dictumst pellentesque potenti. Odio sit sed ut proin.                    </p>
+                  Kullanım tarihi yaklaşan malzemelerinizi değerlendirerek israfı önleyin.
+                </p>
               </Col>
             </Row>
           </div>

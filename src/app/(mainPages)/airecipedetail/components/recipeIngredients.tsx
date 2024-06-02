@@ -35,7 +35,7 @@ const RecipeIngredients = ({ meal }: RecipeIngredientsProps) => {
     return (
         <div className="w-full">
             {ingredients.length > 0 && (
-                <div className="w-full h-40 overflow-y-hidden rounded-xl relative">
+                <div className="w-full overflow-y-hidden rounded-xl relative">
                     <h2 className="text-lg font-bold mb-4">
                         Malzemeler <span className="text-red-500">({ingredients.length})</span>
                     </h2>

@@ -41,7 +41,7 @@ const Recipes = () => {
       </div>
       <div className='flex flex-col gap-6 mt-4 overflow-y-auto custom-scrollbar pb-4'>
         {recipes.map((recipe:any, index:number) => (
-          <RecipeCard key={index} ImageSrc={recipe.imageUrl} title={recipe.title} description={recipe.description} calories={recipe.calories} preparationTime={recipe.preparationTime} />
+          <RecipeCard key={index} Id={`${recipe.id}`} ImageSrc={recipe.imageUrl} title={recipe.title} description={recipe.description} calories={recipe.calories} preparationTime={recipe.preparationTime} />
         ))}
         {/* <RecipeCard ImageSrc={require('@/assets/images/food1.png')} title='Lorem ipsum dolor' description='Lorem ipsum dolor sit amet consectetur. Fermentum lacus at euismod eu urna cursus dui condimentum nulla. Lorem ipsum dolor sit amet consectetur. Fermentum lacus at euismod eu urna cursus dui condimentum nulla.' difficulty='Kolay' preparationTime={30} /> */}
 
