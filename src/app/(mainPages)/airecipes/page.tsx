@@ -8,6 +8,7 @@ import HttpService from '@/services/httpService';
 import { AxiosResponse } from '@/services/types';
 import AiRecipeCard from './_components/AiRecipeCard';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
+import { useRouter } from 'next/navigation';
 
 const AiRecipes = () => {
   const [openFilter, setOpenFilter] = useState<boolean>(false);
@@ -19,6 +20,9 @@ const AiRecipes = () => {
   const [selectedHealth, setSelectedHealth] = useState<string[]>([]);
   const [currFilter, setCurrFilter] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(false);
+
+
+  const router = useRouter();
 
   useEffect(() => {
     document.title = "Yapay Zeka Tarifi";
@@ -93,6 +97,7 @@ const AiRecipes = () => {
       setSelectedExcludedIngredient([]);
       setSelectedHealth([]);
       setOpenFilter(false);
+      router.push('/airecipedetail/'+res.data?.data?.id)
       // setIsModalOpen(true);
     }).catch((err) => {
       console.log(err);
