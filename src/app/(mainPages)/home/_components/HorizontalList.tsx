@@ -12,14 +12,12 @@ interface ListItemProps {
 }
 
 const ListItem = ({ title, ImageSrc, id, ...props }: React.HTMLAttributes<HTMLDivElement> & ListItemProps) => {
-    const handleClick = () => {
-        window.location.href = `/recipedetail/${id}`;
-    };
+    const router = useRouter();
 
     return (
         <div 
             className='flex items-center gap-2 flex-col h-full min-w-24 cursor-pointer'
-            onClick={handleClick}
+            onClick={() => router.push(`/recipedetail/${id}`)}
         >
             <Image src={ImageSrc} alt='' width={1000} height={1000} className='w-24 h-24 object-cover rounded-lg' />
             <div>
@@ -30,8 +28,7 @@ const ListItem = ({ title, ImageSrc, id, ...props }: React.HTMLAttributes<HTMLDi
 };
 
 const HorizontalList = ({ title, Icon, Items, ...props }: React.HTMLAttributes<HTMLDivElement> & { title: string, Icon?: IconType, Items: ListItemProps[]; }) => {
-
-    const router = useRouter()
+    const router = useRouter();
 
     return (
         <div className='w-full' {...props}>
@@ -40,14 +37,13 @@ const HorizontalList = ({ title, Icon, Items, ...props }: React.HTMLAttributes<H
                     <h1 className='text-xl font-semibold'>{title}</h1>
                     {Icon && <Icon className='text-red-500 h-5 w-5 ms-2' />}
                 </div>
-                <div onClick={()=>router.push("/recipes")} className='text-sm text-gray-400 cursor-pointer hover:text-gray-500 active:text-gray-800 select-none transition-colors duration-150'>
-                    {title==="Tüm Tarifler" ? "Tümünü Gör" : ""}
+                <div onClick={() => router.push("/recipes")} className='text-sm text-gray-400 cursor-pointer hover:text-gray-500 active:text-gray-800 select-none transition-colors duration-150'>
+                    {title === "Tüm Tarifler" ? "Tümünü Gör" : ""}
                 </div>
             </div>
             <div 
                 className='overflow-x-auto flex gap-6 px-4 py-2 scroll-smooth custom-scrollbar w-full'
-    
-                >
+            >
                 {Items.length === 0 && <Spin className='mx-auto' size='default' />}
                 {Items.map((item, index) => <ListItem key={index} {...item} />)}
             </div>
